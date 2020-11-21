@@ -1,4 +1,4 @@
-   {
+provider "openstack" {
   user_name           = var.os_user_name
   tenant_name         = var.os_user_name
   password            = var.os_user_password
@@ -12,7 +12,7 @@ resource "random_string" "random_name" {
   length  = 5
   special = false
 }
-
+  
 module "flavor" {
   source               = "../flavor"
   flavor_name          = "flavor-${random_string.random_name.result}"
