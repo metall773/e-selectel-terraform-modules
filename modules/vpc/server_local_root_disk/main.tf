@@ -1,6 +1,6 @@
 provider "openstack" {
   user_name           = var.os_user_name
-  tenant_name         = var.os_user_name
+  tenant_name         = var.os_domain_name
   password            = var.os_user_password
   project_domain_name = var.os_domain_name
   user_domain_name    = var.os_domain_name
