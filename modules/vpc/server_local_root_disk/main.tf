@@ -60,6 +60,7 @@ data "template_file" "init" {
     mount_point = "fdf"
     share_name = "share"
     share_disk_name = "share_disk_name"
+    storage_account = "storage_account"
   }
 }
 
