@@ -61,6 +61,11 @@ data "template_file" "init" {
     share_name = "share"
     share_disk_name = "share_disk_name"
     storage_account = "storage_account"
+    share_login = "share_login"
+    share_disk_host = "share_disk_host"
+    share_disk_login = "share_disk_login"
+    share_disk_pass = "share_disk_pass"
+    share_pass = "share_pass"
   }
 }
 
