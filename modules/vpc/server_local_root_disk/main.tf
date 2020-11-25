@@ -73,7 +73,7 @@ resource "openstack_compute_instance_v2" "instance_1" {
   flavor_id         = module.flavor.flavor_id
   key_pair          = module.keypair.keypair_name
   availability_zone = var.server_zone
-  user_data         = "${data.template_file.script.rendered}"
+  user_data         = data.template_file.init.rendered
 
   network {
     port = openstack_networking_port_v2.port_1.id
