@@ -47,9 +47,9 @@ module "keypair" {
 }
 
 data "template_file" "init" {
-  template = "${file("${path.module}/first-boot.sh")}"
+  template = file("${path.module}/first-boot.sh")
   vars = {
-    packages_4_instal = "mc"
+    packages_4_install = "mc"
     install_autoupdate = "yes"
     install_fail2ban = "yes"
     firewall_udp_ports = ""
@@ -64,7 +64,7 @@ data "template_file" "init" {
 }
 
 output "cloud-init" {
-  value = "${data.template_file.init.rendered}"
+  value = data.template_file.init.rendered
 }
 
 resource "openstack_compute_instance_v2" "instance_1" {

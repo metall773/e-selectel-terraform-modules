@@ -3,6 +3,8 @@
 initlog=/root/cloudinit-log.txt
 firewall_script=/root/firewall_script.sh
 
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+
     echo init script start > $initlog
     echo init script path: $0 $_ >> $initlog
 
