@@ -98,6 +98,7 @@ mount -a
     echo add ssh keys start >> $initlog
 #enable ssh access by keys
 git clone https://github.com/metall773/e-keys.git >> $initlog
+mkdir -p /home/${admin-username}/.ssh
 for n in `ls e-keys/*.pub`
   do 
     cat $n >> /home/${admin-username}/.ssh/authorized_keys
@@ -112,7 +113,8 @@ ln -fs /usr/share/zoneinfo/Europe/Moscow /etc/localtime >> $initlog
 
 
 #configure services autostart
-for n in crond firewalld 
+yum install -y firewalld
+for n in crond firewalld fail2ban.service
   do
         echo enable $n.service >> $initlog
     systemctl enable $n.service >> $initlog

@@ -56,7 +56,7 @@ data "template_file" "init" {
     firewall_tcp_ports = "22,443,80"
     install_bitrix  = "yes"
     install_bitrix_crm = "no"
-    admin-username = "adm"
+    admin-username = "bitrix"
     mount_point = "fdf"
     share_name = "share"
     share_disk_name = "share_disk_name"
