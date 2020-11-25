@@ -52,8 +52,8 @@ data "template_file" "init" {
     packages_4_install = "mc"
     install_autoupdate = "yes"
     install_fail2ban = "yes"
-    firewall_udp_ports = ""
-    firewall_tcp_ports = "22,443,80"
+    firewall_udp_ports = []
+    firewall_tcp_ports = [22, 80, 443, 8433]
     install_bitrix  = "yes"
     install_bitrix_crm = "no"
     admin-username = "bitrix"
