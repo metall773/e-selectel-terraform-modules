@@ -28,10 +28,6 @@ module "nat" {
 resource "openstack_networking_port_v2" "port_1" {
   name       = "${var.server_name}-eth0"
   network_id = module.nat.network_id
-  security_group_ids = [
-    openstack_compute_secgroup_v2.ssh.id,
-    openstack_compute_secgroup_v2.http.id,
-  ]
 
   fixed_ip {
     subnet_id = module.nat.subnet_id
