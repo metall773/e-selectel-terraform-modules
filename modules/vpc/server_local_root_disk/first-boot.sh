@@ -125,13 +125,13 @@ for n in crond firewalld fail2ban.service
 #configure firewalld
     echo firewalld configure start >> $initlog
     echo \#!/bin/bash >> $firewall_script
-for n in $(echo ${firewall_udp_ports} |jq .[])
+for n in $(echo ${firewall_udp_ports})
   do
         echo firewalld add $n/udp  >> $initlog
         echo firewall-cmd --zone=public --add-port=$n/udp --permanent >> $firewall_script
     firewall-offline-cmd --zone=public --add-port=$n/tcp >> $initlog
   done
-for n in $(echo ${firewall_tcp_ports} |jq .[])
+for n in $(echo ${firewall_tcp_ports})
   do
         echo firewalld add $n/tcp  >> $initlog
         echo firewall-cmd --zone=public --add-port=$n/tcp --permanent >> $firewall_script
