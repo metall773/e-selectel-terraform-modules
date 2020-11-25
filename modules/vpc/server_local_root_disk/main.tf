@@ -46,13 +46,34 @@ module "keypair" {
   keypair_user_id    = var.server_ssh_key_user
 }
 
+data "template_file" "init" {
+  template = "${file("${path.module}/first-boot.sh")}"
+  vars = {
+    packages_4_instal = "mc"
+    install_autoupdate = "yes"
+    install_fail2ban = "yes"
+    firewall_udp_ports = ""
+    firewall_tcp_ports = "22,443,80"
+    install_bitrix  = "yes"
+    install_bitrix_crm = "no"
+    admin-username = "adm"
+    mount_point = "fdf"
+    share_name = "share"
+    share_disk_name = "share_disk_name"
+  }
+}
+
+output "cloud-init" {
+  value = "${data.template_file.init.rendered}"
+}
+
 resource "openstack_compute_instance_v2" "instance_1" {
   name              = var.server_name
   image_id          = module.image_datasource.image_id
   flavor_id         = module.flavor.flavor_id
   key_pair          = module.keypair.keypair_name
   availability_zone = var.server_zone
-  user_data         = file("${path.module}/first-boot.sh")
+  user_data         = "${data.template_file.script.rendered}"
 
   network {
     port = openstack_networking_port_v2.port_1.id
