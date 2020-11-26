@@ -118,11 +118,11 @@ chown ${admin-username}:${admin-username} -R /home/${admin-username}
 ln -fs /usr/share/zoneinfo/Europe/Moscow /etc/localtime >> $initlog
 
 #SSHD disable password login
-sed -i \"s/^PasswordAuthentication\ yes/PasswordAuthentication\ no/g\" /etc/ssh/sshd_config
+sed -i "s/^PasswordAuthentication\ yes/PasswordAuthentication\ no/g" /etc/ssh/sshd_config
 #SSHD disable root login
-sed -i \"s/^PermitRootLogin\ yes/PermitRootLogin\ no/g\" /etc/ssh/sshd_config
+sed -i "s/^PermitRootLogin\ yes/PermitRootLogin\ no/g" /etc/ssh/sshd_config
 #enable sudo w/o pass
-sed -i \"s/^\%wheel/\#\%wheel/g\" /etc/sudoers
+sed -i "s/^\%wheel/\#\%wheel/g" /etc/sudoers
 echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
 
 #configure services autostart
