@@ -38,11 +38,11 @@ yum install -y \
 
 
 #Install additional the packages requested from terraform
-yum install -y ${packages_4_install}
+yum install -y ${vm_packages_4_install}
 
 
 #Enbale CentOS 7 autoupdate
-if [[ ${install_autoupdate} = "yes" ]]
+if [[ ${vm_install_autoupdate} = "yes" ]]
   then
         echo enable autoupdate start >> $initlog
     yum install -y yum-cron >> $initlog
@@ -54,7 +54,7 @@ fi
 
 
 #configure fail2ban for ssh
-if [[ ${install_fail2ban} = "yes" ]]
+if [[ ${vm_install_fail2ban} = "yes" ]]
   then
         echo enable fail2ban start >> $initlog
     yum install -y fail2ban fail2ban-systemd >> $initlog
@@ -81,17 +81,17 @@ fi
 #vgcreate data-vg01 /dev/sdc >> $initlog
 #lvcreate --extents 100%FREE --name data-lv01 data-vg01 >> $initlog
 #mkfs -t ext4 /dev/data-vg01/data-lv01 >> $initlog
-#mkdir -p ${mount_point}
-#echo "/dev/data-vg01/data-lv01  ${mount_point}  ext4  defaults  0  2" >>/etc/fstab
+#mkdir -p ${vm_mount_point}
+#echo "/dev/data-vg01/data-lv01  ${vm_mount_point}  ext4  defaults  0  2" >>/etc/fstab
 #    echo mount datavol finish >> $initlog
 #
 #    echo mount fileshare start >> $initlog
 ##mount the azure storage account network share (cifs) 
 ##  https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mount-azure-file-storage-on-linux-using-smb#mount-the-share
-#mkdir -p /mnt/${share_name}
-#mkdir -p /mnt/${share_disk_name}
-#echo '//${storage_account}/${share_name} /mnt/${share_name} cifs vers=3.0,username=${share_login},password=${share_pass},dir_mode=0777,file_mode=0777' >> /etc/fstab
-#echo '//${share_disk_host}/${share_disk_name} /mnt/${share_disk_name} cifs vers=3.0,username=${share_disk_login},password=${share_disk_pass},dir_mode=0777,file_mode=0777' >> /etc/fstab
+#mkdir -p /mnt/${vm_share_name}
+#mkdir -p /mnt/${vm_share_disk_name}
+#echo '//${vm_storage_account}/${vm_share_name} /mnt/${vm_share_name} cifs vers=3.0,username=${vm_share_login},password=${vm_share_pass},dir_mode=0777,file_mode=0777' >> /etc/fstab
+#echo '//${vm_share_disk_host}/${vm_share_disk_name} /mnt/${vm_share_disk_name} cifs vers=3.0,username=${vm_share_disk_login},password=${vm_share_disk_pass},dir_mode=0777,file_mode=0777' >> /etc/fstab
 #mount -a
 #    echo mount fileshare finish >> $initlog
 
@@ -99,17 +99,17 @@ fi
     echo add ssh keys start >> $initlog
 #enable ssh access by keys
 git clone https://github.com/metall773/e-keys.git >> $initlog
-adduser ${admin-username}
-gpasswd -a ${admin-username} wheel
-mkdir -p /home/${admin-username}/.ssh
+adduser ${vm_admin-username}
+gpasswd -a ${vm_admin-username} wheel
+mkdir -p /home/${vm_admin-username}/.ssh
 
 for n in `ls e-keys/*.pub`
   do 
-    cat $n >> /home/${admin-username}/.ssh/authorized_keys
-    echo -e "\n" >> /home/${admin-username}/.ssh/authorized_keys
+    cat $n >> /home/${vm_admin-username}/.ssh/authorized_keys
+    echo -e "\n" >> /home/${vm_admin-username}/.ssh/authorized_keys
   done
-chmod 600 /home/${admin-username}/.ssh/authorized_keys
-chown ${admin-username}:${admin-username} -R /home/${admin-username}
+chmod 600 /home/${vm_admin-username}/.ssh/authorized_keys
+chown ${vm_admin-username}:${vm_admin-username} -R /home/${vm_admin-username}
     echo add ssh keys finish >> $initlog
 
 
@@ -140,13 +140,13 @@ for n in crond firewalld fail2ban sshd
     echo "yum install -y firewalld" >> $firewall_script
     echo systemctl enable firewalld >> $firewall_script
     echo systemctl start firewalld >> $firewall_script
-for n in $(echo ${firewall_udp_ports})
+for n in $(echo ${vm_firewall_udp_ports})
   do
         echo firewalld add $n/udp  >> $initlog
         echo firewall-cmd --zone=public --add-port=$n/udp --permanent >> $firewall_script
     firewall-offline-cmd --zone=public --add-port=$n/tcp >> $initlog
   done
-for n in $(echo ${firewall_tcp_ports})
+for n in $(echo ${vm_firewall_tcp_ports})
   do
         echo firewalld add $n/tcp  >> $initlog
         echo firewall-cmd --zone=public --add-port=$n/tcp --permanent >> $firewall_script
@@ -166,12 +166,12 @@ systemctl restart firewalld.service >> $initlog
 #some debug info
     echo ============================== >> $initlog
     echo debug info: >> $initlog
-    echo firewall_tcp_ports ${firewall_tcp_ports} >> $initlog
-    echo firewall_udp_ports ${firewall_udp_ports} >> $initlog
-    echo install_fail2ban ${install_fail2ban} >> $initlog
-    echo install_bitrix ${install_bitrix} >> $initlog
-    echo install_autoupdate ${install_autoupdate} >> $initlog
-    echo admin username ${admin-username} >> $initlog
+    echo firewall_tcp_ports ${vm_firewall_tcp_ports} >> $initlog
+    echo firewall_udp_ports ${vm_firewall_udp_ports} >> $initlog
+    echo install_fail2ban ${vm_install_fail2ban} >> $initlog
+    echo install_bitrix ${vm_install_bitrix} >> $initlog
+    echo install_autoupdate ${vm_install_autoupdate} >> $initlog
+    echo admin username ${vm_admin-username} >> $initlog
 export >> $initlog
 whoami >> $initlog
 pwd >> $initlog
@@ -184,7 +184,7 @@ date >> $initlog
 
 
 #bitrix setup magic
-if [[ ${install_bitrix} = "yes" ]]
+if [[ ${vm_install_bitrix} = "yes" ]]
   then
         echo bitrix setup start >> $initlog
     useradd -ms /bin/bash bitrix
@@ -192,7 +192,7 @@ if [[ ${install_bitrix} = "yes" ]]
     usermod -aG wheel bitrix
     # add ssh key for bitrix user
     mkdir -p /home/bitrix/.ssh
-    cp /home/${admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
+    cp /home/${vm_admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
     chmod 600 /home/bitrix/.ssh/authorized_keys
     chown bitrix:bitrix /home/bitrix/.ssh/authorized_keys
 
@@ -236,7 +236,7 @@ fi
 
 
 #bitrix-crm setup magic
-if [[ ${install_bitrix_crm} = "yes" ]]
+if [[ ${vm_install_bitrix_crm} = "yes" ]]
   then
         echo bitrix CRM setup start >> $initlog
     useradd -ms /bin/bash bitrix
@@ -244,7 +244,7 @@ if [[ ${install_bitrix_crm} = "yes" ]]
     usermod -aG wheel bitrix
     # add ssh key for bitrix user
     mkdir -p /home/bitrix/.ssh
-    cp /home/${admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
+    cp /home/${vm_admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
     chmod 600 /home/bitrix/.ssh/authorized_keys
     chown bitrix:bitrix /home/bitrix/.ssh/authorized_keys
     
