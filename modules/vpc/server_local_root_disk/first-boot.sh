@@ -117,13 +117,12 @@ chown ${admin-username}:${admin-username} -R /home/${admin-username}
     echo set timezone >> $initlog
 ln -fs /usr/share/zoneinfo/Europe/Moscow /etc/localtime >> $initlog
 
-
 #SSHD disable password login
 sed -i \"s/^PasswordAuthentication\ yes/PasswordAuthentication\ no/g\" /etc/ssh/sshd_config
 #SSHD disable root login
 sed -i \"s/^PermitRootLogin\ yes/PermitRootLogin\ no/g\" /etc/ssh/sshd_config
 #enable sudo w/o pass
-sed -i \"s/^%wheel        ALL=(ALL)/%wheel        ALL=(ALL)       NOPASSWD: ALL/g\" /etc/sudoers
+sed -i \"s/^\%wheel*\sALL=(ALL)*\sALL/%wheel        ALL=(ALL)       NOPASSWD: ALL/g\" /etc/sudoers
 
 #configure services autostart
 yum install -y firewalld
