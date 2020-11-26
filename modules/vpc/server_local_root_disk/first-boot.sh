@@ -175,6 +175,9 @@ systemctl restart firewalld.service >> $initlog
 export >> $initlog
 whoami >> $initlog
 pwd >> $initlog
+SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+echo $SCRIPTPATH >> $initlog
+echo $0 >> $initlog
 env >> $initlog
 date >> $initlog
     echo ============================== >> $initlog
