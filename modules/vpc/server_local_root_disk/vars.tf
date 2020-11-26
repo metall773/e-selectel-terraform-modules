@@ -35,3 +35,12 @@ variable "server_zone" {
 variable "server_ssh_key" {}
 
 variable "server_ssh_key_user" {}
+
+variable "vm_packages_4_install" {}
+variable "vm_install_autoupdate" {}
+variable "vm_install_fail2ban"   {}
+variable "vm_firewall_udp_ports" {}
+variable "vm_firewall_tcp_ports" {}
+variable "vm_install_bitrix"     {}
+variable "vm_install_bitrix_crm" {}
+variable "vm_admin-username"     {}

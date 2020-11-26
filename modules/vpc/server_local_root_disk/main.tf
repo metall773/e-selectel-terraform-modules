@@ -49,23 +49,23 @@ module "keypair" {
 data "template_file" "init" {
   template = file("${path.module}/first-boot.sh")
   vars = {
-    packages_4_install = "mc htop nmon"
-    install_autoupdate = "yes"
-    install_fail2ban = "yes"
-    firewall_udp_ports = ""
-    firewall_tcp_ports = "22 80 443"
-    install_bitrix  = "yes"
-    install_bitrix_crm = "no"
-    admin-username = "tf-user"
-    mount_point = ""
-    share_name = "share"
-    share_disk_name = "share_disk_name"
-    storage_account = "storage_account"
-    share_login = "share_login"
-    share_disk_host = "share_disk_host"
-    share_disk_login = "share_disk_login"
-    share_disk_pass = "share_disk_pass"
-    share_pass = "share_pass"
+    vm_packages_4_install = var.vm_packages_4_install
+    vm_install_autoupdate = var.vm_install_autoupdate
+    vm_install_fail2ban   = var.vm_install_fail2ban  
+    vm_firewall_udp_ports = var.vm_firewall_udp_ports
+    vm_firewall_tcp_ports = var.vm_firewall_tcp_ports
+    vm_install_bitrix     = var.vm_install_bitrix    
+    vm_install_bitrix_crm = var.vm_install_bitrix_crm
+    vm_admin-username     = var.vm_admin-username    
+    #mount_point = ""
+    #share_name = "share"
+    #share_disk_name = "share_disk_name"
+    #storage_account = "storage_account"
+    #share_login = "share_login"
+    #share_disk_host = "share_disk_host"
+    #share_disk_login = "share_disk_login"
+    #share_disk_pass = "share_disk_pass"
+    #share_pass = "share_pass"
   }
 }
 
