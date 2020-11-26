@@ -208,13 +208,11 @@ if [[ ${install_bitrix} = "yes" ]]
     cat << EOF > /root/bitrix_install_one_time.sh
 #!/bin/bash
 /root/bitrix-env.sh >> /root/cloudinit-log.txt
-
-/root/bitrix_install_one_time.sh
-$firewall_script
-systemctl disable sample.service
-rm -f /etc/systemd/system/sample.service
-systemctl stop sample.service
-systemctl daemon-reload
+$firewall_script >> /root/cloudinit-log.txt
+systemctl disable sample.service >> /root/cloudinit-log.txt
+rm -f /etc/systemd/system/sample.service >> /root/cloudinit-log.txt
+systemctl stop sample.service >> /root/cloudinit-log.txt
+systemctl daemon-reload >> /root/cloudinit-log.txt
 EOF
     chmod +x /root/bitrix_install_one_time.sh
     cat << EOF > /etc/systemd/system/sample.service
