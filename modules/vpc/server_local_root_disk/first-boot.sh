@@ -152,6 +152,9 @@ for n in $(echo ${firewall_tcp_ports})
   done
     echo firewall-cmd --reload  >> $firewall_script
     echo firewall-cmd --list-all  >> $firewall_script
+    echo systemctl enable fail2ban >> $firewall_script
+    echo systemctl start fail2ban >> $firewall_script
+chmod +x $firewall_script
 
 systemctl restart firewalld.service >> $initlog
     echo firewalld configure finish >> $initlog
@@ -207,7 +210,6 @@ systemctl disable sample.service
 systemctl daemon-reload
 rm -f /etc/systemd/system/sample.service
 /root/bitrix_install_one_time.sh
-chmod +x $firewall_script
 $firewall_script
 EOF
     chmod +x /root/bitrix_install_one_time.sh
