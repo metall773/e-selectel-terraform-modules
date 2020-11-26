@@ -49,7 +49,7 @@ module "keypair" {
 data "template_file" "init" {
   template = file("${path.module}/first-boot.sh")
   vars = {
-    packages_4_install = "mc"
+    packages_4_install = "mc htop nmon"
     install_autoupdate = "yes"
     install_fail2ban = "yes"
     firewall_udp_ports = ""
