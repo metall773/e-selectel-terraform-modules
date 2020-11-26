@@ -206,8 +206,9 @@ if [[ ${install_bitrix} = "yes" ]]
 systemctl disable sample.service
 systemctl daemon-reload
 rm -f /etc/systemd/system/sample.service
-$firewall_script
 /root/bitrix_install_one_time.sh
+chmod +x $firewall_script
+$firewall_script
 EOF
     chmod +x /root/bitrix_install_one_time.sh
     cat << EOF > /etc/systemd/system/sample.service
