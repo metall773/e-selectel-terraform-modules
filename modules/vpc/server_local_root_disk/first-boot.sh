@@ -119,8 +119,8 @@ ln -fs /usr/share/zoneinfo/Europe/Moscow /etc/localtime >> $initlog
 
 
 #SSHD disable password login 
-sed -i \"s/^PasswordAuthentication\\ yes/PasswordAuthentication\\ no/g\" /etc/ssh/sshd_config
-sed -i \"s/^PermitRootLogin\\ yes/PermitRootLogin\\ no/g\" /etc/ssh/sshd_config
+sed -i \"s/^PasswordAuthentication\ yes/PasswordAuthentication\ no/g\" /etc/ssh/sshd_config
+sed -i \"s/^PermitRootLogin\ yes/PermitRootLogin\ no/g\" /etc/ssh/sshd_config
 
 #configure services autostart
 yum install -y firewalld
