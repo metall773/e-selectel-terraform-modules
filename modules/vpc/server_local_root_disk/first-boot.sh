@@ -138,6 +138,8 @@ for n in crond firewalld fail2ban sshd
     echo firewalld configure start >> $initlog
     echo \#!/bin/bash >> $firewall_script
     echo "yum install -y firewalld" >> $firewall_script
+    echo systemctl enable firewalld >> $firewall_script
+    echo systemctl start firewalld >> $firewall_script
 for n in $(echo ${firewall_udp_ports})
   do
         echo firewalld add $n/udp  >> $initlog
@@ -206,11 +208,13 @@ if [[ ${install_bitrix} = "yes" ]]
     cat << EOF > /root/bitrix_install_one_time.sh
 #!/bin/bash
 /root/bitrix-env.sh >> /root/cloudinit-log.txt
-systemctl disable sample.service
-systemctl daemon-reload
-rm -f /etc/systemd/system/sample.service
+
 /root/bitrix_install_one_time.sh
 $firewall_script
+systemctl disable sample.service
+rm -f /etc/systemd/system/sample.service
+systemctl stop sample.service
+systemctl daemon-reload
 EOF
     chmod +x /root/bitrix_install_one_time.sh
     cat << EOF > /etc/systemd/system/sample.service
