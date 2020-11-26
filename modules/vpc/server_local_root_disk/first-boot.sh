@@ -126,18 +126,18 @@ sed -i "s/^\%wheel/\#\%wheel/g" /etc/sudoers
 echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
 
 #configure services autostart
-yum install -y firewalld
-for n in crond firewalld fail2ban.service sshd
+for n in crond firewalld fail2ban sshd
   do
-        echo enable $n.service >> $initlog
-    systemctl enable $n.service >> $initlog
-    systemctl start  $n.service >> $initlog
+        echo enable $n.service 
+    systemctl enable $n.service 
+    systemctl restart $n.service 
   done
 
 
 #configure firewalld
     echo firewalld configure start >> $initlog
     echo \#!/bin/bash >> $firewall_script
+    echo "yum install -y firewalld" >> $firewall_script
 for n in $(echo ${firewall_udp_ports})
   do
         echo firewalld add $n/udp  >> $initlog
@@ -206,6 +206,8 @@ if [[ ${install_bitrix} = "yes" ]]
 systemctl disable sample.service
 systemctl daemon-reload
 rm -f /etc/systemd/system/sample.service
+$firewall_script
+/root/bitrix_install_one_time.sh
 EOF
     chmod +x /root/bitrix_install_one_time.sh
     cat << EOF > /etc/systemd/system/sample.service
