@@ -7,5 +7,5 @@ output "server_port_id" {
 }
 
 output "floating_ip" {
-  value = module.floatingip.floatingip_address
+  value = data.openstack_networking_floatingip_v2.floating_ip
 }
