@@ -12,7 +12,7 @@ resource "random_string" "random_name" {
   length  = 5
   special = false
 }
-  
+
 module "flavor" {
   source               = "../flavor"
   flavor_name          = "flavor-${random_string.random_name.result}"
@@ -21,16 +21,12 @@ module "flavor" {
   flavor_local_disk_gb = var.server_root_disk_gb
 }
 
-module "nat" {
-  source = "../nat"
-}
-
 resource "openstack_networking_port_v2" "port_1" {
   name       = "${var.server_name}-eth0"
-  network_id = module.nat.network_id
+  network_id = var.network_id
 
   fixed_ip {
-    subnet_id = module.nat.subnet_id
+    subnet_id = var.subnet_id
   }
 }
 
@@ -51,12 +47,12 @@ data "template_file" "init" {
   vars = {
     vm_packages_4_install = var.vm_packages_4_install
     vm_install_autoupdate = var.vm_install_autoupdate
-    vm_install_fail2ban   = var.vm_install_fail2ban  
+    vm_install_fail2ban   = var.vm_install_fail2ban
     vm_firewall_udp_ports = var.vm_firewall_udp_ports
     vm_firewall_tcp_ports = var.vm_firewall_tcp_ports
-    vm_install_bitrix     = var.vm_install_bitrix    
+    vm_install_bitrix     = var.vm_install_bitrix
     vm_install_bitrix_crm = var.vm_install_bitrix_crm
-    vm_admin-username     = var.vm_admin-username    
+    vm_admin-username     = var.vm_admin-username
     #mount_point = ""
     #share_name = "share"
     #share_disk_name = "share_disk_name"
