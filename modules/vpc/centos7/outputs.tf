@@ -7,5 +7,5 @@ output "server_port_id" {
 }
 
 output "floating_ip" {
-  value = "1.1.1.1"
+  value = module.floatingip[0].floatingip_address
 }
