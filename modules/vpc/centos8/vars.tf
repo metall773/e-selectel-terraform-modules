@@ -44,3 +44,6 @@ variable "vm_firewall_tcp_ports" {}
 variable "vm_install_bitrix"     {}
 variable "vm_install_bitrix_crm" {}
 variable "vm_admin-username"     {}
+
+variable "network_id" {}
+variable "subnet_id" {}
