@@ -94,7 +94,7 @@ resource "selectel_domains_record_v1" "a_record_local" {
   domain_id = var.vm_dns_domain_id
   name      = "${var.server_name}-local.${var.vm_dns_domain_name}"
   type      = "A"
-  content   = openstack_compute_instance_v2.instance_1.fixed_ip
+  content   = openstack_compute_instance_v2.instance_1.access_ip_v4
   ttl       = 60
 }
 
