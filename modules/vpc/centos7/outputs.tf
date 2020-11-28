@@ -7,5 +7,6 @@ output "server_port_id" {
 }
 
 output "floating_ip" {
+  count = var.enable_floatingip ? 1 : 0
   value = module.floatingip[0].floatingip_address
 }
