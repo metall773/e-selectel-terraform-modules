@@ -34,14 +34,36 @@ variable "server_zone" {
 
 variable "server_ssh_key" {}
 variable "server_ssh_key_user" {}
-variable "vm_packages_4_install" {}
-variable "vm_install_autoupdate" {}
-variable "vm_install_fail2ban" {}
-variable "vm_firewall_udp_ports" {}
-variable "vm_firewall_tcp_ports" {}
-variable "vm_install_bitrix" {}
-variable "vm_install_bitrix_crm" {}
-variable "vm_admin-username" {}
+variable "vm_packages_4_install" {
+  default = ""
+}
+variable "vm_install_autoupdate" {
+  default = "yes"
+}
+variable "vm_install_fail2ban" {
+  description = "If set to yes, install fail2ban"
+  default     = "yes"
+}
+variable "vm_firewall_udp_ports" {
+  default = ""
+}
+variable "vm_firewall_tcp_ports" {
+  default = "22"
+}
+variable "vm_install_bitrix" {
+  default = "no"
+}
+variable "vm_install_bitrix_crm" {
+  default = "no"
+}
+variable "vm_admin-username" {
+  default = "tf-user"
+}
 
 variable "network_id" {}
 variable "subnet_id" {}
+variable "enable_floatingip" {
+  description = "If set to true, enable floatingip"
+  type        = bool
+  default     = "false"
+}

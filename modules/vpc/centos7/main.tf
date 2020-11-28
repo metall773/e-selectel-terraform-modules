@@ -91,6 +91,7 @@ resource "openstack_compute_instance_v2" "instance_1" {
 }
 
 module "floatingip" {
+  count  = var.enable_floatingip ? 1 : 0
   source = "../floatingip"
 }
 
