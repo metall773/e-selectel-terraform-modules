@@ -21,16 +21,12 @@ module "flavor" {
   flavor_local_disk_gb = var.server_root_disk_gb
 }
 
-module "nat" {
-  source = "../nat"
-}
-
 resource "openstack_networking_port_v2" "port_1" {
   name       = "${var.server_name}-eth0"
-  network_id = module.nat.network_id
+  network_id = var.network_id
 
   fixed_ip {
-    subnet_id = module.nat.subnet_id
+    subnet_id = var.subnet_id
   }
 }
 
