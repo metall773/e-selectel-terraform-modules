@@ -67,3 +67,11 @@ variable "enable_floatingip" {
   type        = bool
   default     = "false"
 }
+
+variable "vm_dns_domain_id" {
+  description = "DNS domain id"
+}
+
+variable "vm_dns_domain_name" {
+  description = "DNS domain"
+}

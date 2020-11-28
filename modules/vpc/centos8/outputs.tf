@@ -5,7 +5,3 @@ output "server_id" {
 output "server_port_id" {
   value = openstack_networking_port_v2.port_1.id
 }
-
-output "floating_ip" {
-  value = module.floatingip[0].floatingip_address
-}
