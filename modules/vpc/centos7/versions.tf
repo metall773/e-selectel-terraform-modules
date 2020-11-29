@@ -3,6 +3,9 @@ terraform {
     openstack = {
       source = "terraform-provider-openstack/openstack"
     }
+    random = {
+      source = "hashicorp/random"
+    }
     selectel = {
       source = "selectel/selectel"
     }
