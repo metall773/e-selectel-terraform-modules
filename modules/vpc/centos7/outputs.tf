@@ -11,5 +11,5 @@ output "server_FQDN" {
 }
 
 output "server_FQDN_local" {
-  value = "${var.server_name}-local.${var.vm_dns_domain_name}"
+  value = "local.${var.server_name}.${var.vm_dns_domain_name}"
 }
