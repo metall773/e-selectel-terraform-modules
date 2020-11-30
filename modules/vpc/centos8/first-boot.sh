@@ -124,16 +124,16 @@ for n in $(echo ${vm_firewall_udp_ports})
   done
 for n in $(echo ${vm_firewall_tcp_ports})
   do
-        echo firewalld add $n/tcp  >> $initlog
-        echo firewall-cmd --zone=public --add-port=$n/tcp --permanent >> $firewall_script
+    echo firewalld add $n/tcp  >> $initlog
+    echo firewall-cmd --zone=public --add-port=$n/tcp --permanent >> $firewall_script
     firewall-offline-cmd --zone=public --add-port=$n/tcp >> $initlog
   done
 if [[ "${vm_firewall_sshd_net}" != "any" ]]
   then
-      echo firewall-cmd --zone=internal --add-service=ssh --permanent >> $firewall_script
-      echo firewall-cmd --zone=internal --add-source=${vm_firewall_sshd_net} --permanent >> $firewall_script
-      echo firewall-cmd --zone=public --remove-service=ssh --permanent >> $firewall_script
-      echo firewall-cmd --zone=public --remove-port=22 --permanent >> $firewall_script
+    echo firewall-cmd --zone=internal --add-service=ssh --permanent >> $firewall_script
+    echo firewall-cmd --zone=internal --add-source=${vm_firewall_sshd_net} --permanent >> $firewall_script
+    echo firewall-cmd --zone=public --remove-service=ssh --permanent >> $firewall_script
+    echo firewall-cmd --zone=public --remove-port=22/tcp --permanent >> $firewall_script
   fi
 echo firewall-cmd --reload  >> $firewall_script
 echo firewall-cmd --list-all  >> $firewall_script
