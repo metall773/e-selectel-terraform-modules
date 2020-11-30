@@ -120,13 +120,11 @@ for n in $(echo ${vm_firewall_udp_ports})
   do
     echo firewalld add $n/udp  >> $initlog
     echo firewall-cmd --zone=public --add-port=$n/udp --permanent >> $firewall_script
-    firewall-offline-cmd --zone=public --add-port=$n/tcp >> $initlog
   done
 for n in $(echo ${vm_firewall_tcp_ports})
   do
     echo firewalld add $n/tcp  >> $initlog
     echo firewall-cmd --zone=public --add-port=$n/tcp --permanent >> $firewall_script
-    firewall-offline-cmd --zone=public --add-port=$n/tcp >> $initlog
   done
 if [[ "${vm_firewall_sshd_net}" != "any" ]]
   then
@@ -138,7 +136,7 @@ if [[ "${vm_firewall_sshd_net}" != "any" ]]
 echo firewall-cmd --reload  >> $firewall_script
 echo firewall-cmd --list-all  >> $firewall_script
 chmod +x $firewall_script
-
+$firewall_script
 systemctl restart firewalld.service >> $initlog
     echo firewalld configure finish >> $initlog
     echo init script done >> $initlog
