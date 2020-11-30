@@ -53,15 +53,7 @@ data "template_file" "init" {
     vm_install_bitrix     = var.vm_install_bitrix
     vm_install_bitrix_crm = var.vm_install_bitrix_crm
     vm_admin-username     = var.vm_admin-username
-    #mount_point = ""
-    #share_name = "share"
-    #share_disk_name = "share_disk_name"
-    #storage_account = "storage_account"
-    #share_login = "share_login"
-    #share_disk_host = "share_disk_host"
-    #share_disk_login = "share_disk_login"
-    #share_disk_pass = "share_disk_pass"
-    #share_pass = "share_pass"
+    vm_firewall_sshd_net  = var.vm_firewall_sshd_net
   }
 }
 

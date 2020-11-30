@@ -41,7 +41,7 @@ dnf install -y \
 dnf install -y ${vm_packages_4_install}
 
 #Enbale CentOS 8 autoupdate
-if [[ ${vm_install_autoupdate} = "yes" ]]
+if [[ "${vm_install_autoupdate}" = "yes" ]]
   then
         echo enable autoupdate start >> $initlog
     dnf install -y vim dnf-automatic >> $initlog
@@ -52,7 +52,7 @@ fi
 
 
 #configure fail2ban for ssh
-if [[ ${vm_install_fail2ban} = "yes" ]]
+if [[ "${vm_install_fail2ban}" = "yes" ]]
   then
         echo enable fail2ban start >> $initlog
     dnf install -y fail2ban fail2ban-systemd >> $initlog
@@ -112,14 +112,14 @@ for n in crond firewalld fail2ban sshd
 
 #configure firewalld
     echo firewalld configure start >> $initlog
-    echo \#!/bin/bash >> $firewall_script
-    echo "dnf install -y firewalld" >> $firewall_script
-    echo systemctl enable firewalld >> $firewall_script
-    echo systemctl start firewalld >> $firewall_script
+echo \#!/bin/bash >> $firewall_script
+echo "dnf install -y firewalld" >> $firewall_script
+echo systemctl enable firewalld >> $firewall_script
+echo systemctl start firewalld >> $firewall_script
 for n in $(echo ${vm_firewall_udp_ports})
   do
-        echo firewalld add $n/udp  >> $initlog
-        echo firewall-cmd --zone=public --add-port=$n/udp --permanent >> $firewall_script
+    echo firewalld add $n/udp  >> $initlog
+    echo firewall-cmd --zone=public --add-port=$n/udp --permanent >> $firewall_script
     firewall-offline-cmd --zone=public --add-port=$n/tcp >> $initlog
   done
 for n in $(echo ${vm_firewall_tcp_ports})
@@ -128,10 +128,14 @@ for n in $(echo ${vm_firewall_tcp_ports})
         echo firewall-cmd --zone=public --add-port=$n/tcp --permanent >> $firewall_script
     firewall-offline-cmd --zone=public --add-port=$n/tcp >> $initlog
   done
-    echo firewall-cmd --reload  >> $firewall_script
-    echo firewall-cmd --list-all  >> $firewall_script
-    echo systemctl enable fail2ban >> $firewall_script
-    echo systemctl start fail2ban >> $firewall_script
+if [[ "${vm_firewall_sshd_net}" != "any" ]]
+  then
+      echo firewall-cmd --zone=internal --add-service=ssh >> $firewall_script
+      echo firewall-cmd --zone=internal --add-source=${vm_firewall_sshd_net} >> $firewall_script
+      echo firewall-cmd --zone=public --remove-service=ssh >> $firewall_script
+  fi
+echo firewall-cmd --reload  >> $firewall_script
+echo firewall-cmd --list-all  >> $firewall_script
 chmod +x $firewall_script
 
 systemctl restart firewalld.service >> $initlog
