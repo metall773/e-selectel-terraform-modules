@@ -130,9 +130,10 @@ for n in $(echo ${vm_firewall_tcp_ports})
   done
 if [[ "${vm_firewall_sshd_net}" != "any" ]]
   then
-      echo firewall-cmd --zone=internal --add-service=ssh >> $firewall_script
-      echo firewall-cmd --zone=internal --add-source=${vm_firewall_sshd_net} >> $firewall_script
-      echo firewall-cmd --zone=public --remove-service=ssh >> $firewall_script
+      echo firewall-cmd --zone=internal --add-service=ssh --permanent >> $firewall_script
+      echo firewall-cmd --zone=internal --add-source=${vm_firewall_sshd_net} --permanent >> $firewall_script
+      echo firewall-cmd --zone=public --remove-service=ssh --permanent >> $firewall_script
+      echo firewall-cmd --zone=public --remove-port=22 --permanent >> $firewall_script
   fi
 echo firewall-cmd --reload  >> $firewall_script
 echo firewall-cmd --list-all  >> $firewall_script
