@@ -62,7 +62,7 @@ variable "vm_admin-username" {
   default = "tf-user"
 }
 
-variable "" {}
+variable "network_id" {}
 variable "subnet_id" {}
 variable "enable_floatingip" {
   description = "If set to true, enable floatingip"
