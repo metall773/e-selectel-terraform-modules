@@ -1,15 +1,3 @@
-variable "os_user_name" {}
-
-variable "os_project_name" {}
-
-variable "os_user_password" {}
-
-variable "os_domain_name" {}
-
-variable "os_auth_url" {}
-
-variable "os_region" {}
-
 variable "server_vcpus" {
   default = 4
 }
