@@ -2,7 +2,7 @@
 
 log ()
 {
-log "$@" >> $initlog
+  echo "$@" >> $initlog
 }
 
 #set variables
