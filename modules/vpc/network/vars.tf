@@ -1,15 +1,3 @@
-variable "os_user_name" {}
-
-variable "os_project_name" {}
-
-variable "os_user_password" {}
-
-variable "os_domain_name" {}
-
-variable "os_auth_url" {}
-
-variable "os_region" {}
-
 variable "router_external_net_name" {
   default = "external_network"
 }

@@ -1,5 +1,4 @@
 module "project" {
-  depends_on = [ module.user ]
   source       = "../project"
   project_name = var.project_name
 }

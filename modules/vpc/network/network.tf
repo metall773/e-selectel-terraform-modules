@@ -1,13 +1,3 @@
-provider "openstack" {
-  user_name           = var.os_user_name
-  tenant_name         = var.os_project_name
-  password            = var.os_user_password
-  project_domain_name = var.os_domain_name
-  user_domain_name    = var.os_domain_name
-  auth_url            = var.os_auth_url
-  region              = var.os_region
-}
-
 data "openstack_networking_network_v2" "external_net" {
   name = var.router_external_net_name
 }
