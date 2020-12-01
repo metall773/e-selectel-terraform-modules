@@ -107,7 +107,7 @@ cat /root/.ssh/authorized_keys
 for n in `ls e-keys/*.pub` /home/${vm_admin-username}/.ssh/authorized_keys
   do 
     cat $n >> /home/${vm_admin-username}/.ssh/authorized_keys
-log -e "\n" >> /home/${vm_admin-username}/.ssh/authorized_keys
+    echo -e "\n" >> /home/${vm_admin-username}/.ssh/authorized_keys
   done
 chmod 600 /home/${vm_admin-username}/.ssh/authorized_keys
 chown ${vm_admin-username}:${vm_admin-username} -R /home/${vm_admin-username}
