@@ -8,7 +8,7 @@ log "$@" >> $initlog
 #set variables
 initlog=/root/cloudinit-log.txt
 firewall_script=/root/firewall_script.sh
-centos_version=`rpm -E %{rhel}`
+centos_version=`rpm -E %%{rhel}`
 if [[ "$centos_version" = "8" ]]
   then
     pkgmgr=dnf
