@@ -222,13 +222,13 @@ if [[ ! -z "$bitrix_setup_url" ]]
     log bitrix crm setup preparing done, need reboot
     cat << EOF > /root/bitrix_install_one_time.sh
 #!/bin/bash
-echo reboot finish, comtinue... >> /root/cloudinit-log.txt
-/root/bitrix-env.sh >> /root/cloudinit-log.txt
-$firewall_script >> /root/cloudinit-log.txt
-systemctl disable sample.service >> /root/cloudinit-log.txt
-rm -f /etc/systemd/system/sample.service >> /root/cloudinit-log.txt
-systemctl stop sample.service >> /root/cloudinit-log.txt
-systemctl daemon-reload >> /root/cloudinit-log.txt
+echo reboot finish, comtinue...
+/root/bitrix-env.sh
+$firewall_script
+systemctl disable sample.service
+rm -f /etc/systemd/system/sample.service
+systemctl stop sample.service
+systemctl daemon-reload
 EOF
     chmod +x /root/bitrix_install_one_time.sh
     cat << EOF > /etc/systemd/system/sample.service
