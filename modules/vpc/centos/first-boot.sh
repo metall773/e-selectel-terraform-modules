@@ -219,14 +219,18 @@ if [[ ! -z "$bitrix_setup_url" ]]
     wget $bitrix_setup_url -O /root/bitrix-env.sh >> $initlog
     chmod +x /root/bitrix-env.sh
     
+    log update firewall script
+    echo systemctl enable fail2ban >> $firewall_script
+    echo systemctl start fail2ban >> $firewall_script
+    
     log bitrix crm setup preparing done, need reboot
     cat << EOF > /root/bitrix_install_one_time.sh
 #!/bin/bash
-echo reboot finish, comtinue...
-/root/bitrix-env.sh
-$firewall_script
-systemctl disable sample.service
-rm -f /etc/systemd/system/sample.service
+echo reboot finish, comtinue... >> /root/cloudinit-log.txt
+/root/bitrix-env.sh >> /root/cloudinit-log.txt
+/root/firewall_script.sh >> /root/cloudinit-log.txt
+systemctl disable sample.service >> /root/cloudinit-log.txt
+rm -f /etc/systemd/system/sample.service 
 systemctl stop sample.service
 systemctl daemon-reload
 EOF
@@ -238,7 +242,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/root/bitrix_install_one_time.sh >> /root/cloudinit-log.txt
+ExecStart=/root/bitrix_install_one_time.sh
 TimeoutStartSec=0
 
 [Install]
