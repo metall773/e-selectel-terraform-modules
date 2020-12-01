@@ -75,3 +75,8 @@ variable "vm_dns_domain_id" {
 variable "vm_dns_domain_name" {
   description = "DNS domain"
 }
+
+variable "vm_firewall_sshd_net" {
+  description = "Allow connect to sshd from listen network"
+  default  = "any"
+}
