@@ -22,6 +22,6 @@ output "biirix" {
   value = var.vm_install_bitrix
 }
 
-output "biirix" {
+output "biirix_crm" {
   value = var.vm_install_bitrix_crm
 }
