@@ -13,3 +13,15 @@ output "server_FQDN" {
 output "server_FQDN_local" {
   value = "local.${var.server_name}.${var.vm_dns_domain_name}"
 }
+
+output "server_name" {
+  value = var.server_name
+}
+
+output "biirix" {
+  value = var.vm_install_bitrix
+}
+
+output "biirix" {
+  value = var.vm_install_bitrix_crm
+}
