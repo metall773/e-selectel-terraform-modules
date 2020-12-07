@@ -35,3 +35,8 @@ variable "volume_gigabytes_fast_quotas" {
   description = "Disk quota in Gb for the project"
   default = "200"
 }
+
+variable "volume_gigabytes_local_quotas" {
+  description = "Local Disk quota in Gb for the project"
+  default = "200"
+}
