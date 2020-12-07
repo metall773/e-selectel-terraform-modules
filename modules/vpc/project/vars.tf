@@ -10,6 +10,10 @@ variable "server_zone" {
   default = "ru-7a"
 }
 
-variable "quotas" {
+variable "quotas_zone" {
+  type = map
+}
+
+variable "quotas_region" {
   type = map
 }
