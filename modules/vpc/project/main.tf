@@ -39,7 +39,7 @@ resource "selectel_vpc_project_v2" "project_1" {
   }
 
   quotas {
-    resource_name = "volume_gigabytes_local_quotas"
+    resource_name = "volume_gigabytes_local"
     resource_quotas {
       region = var.os_region
       zone = var.server_zone
