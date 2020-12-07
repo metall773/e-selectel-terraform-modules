@@ -11,5 +11,5 @@ variable "server_zone" {
 }
 
 variable "quotas" {
-  type = "map"
+  type = map
 }
