@@ -5,13 +5,11 @@ resource "selectel_vpc_project_v2" "project_1" {
   dynamic "quotas" {
     for_each = var.quotas
     content {
-      quotas {
-        resource_name = each.key
-        resource_quotas {
-          region = var.os_region
-          zone   = var.server_zone
-          value  = each.value
-        }
+      resource_name = each.key
+      resource_quotas {
+        region = var.os_region
+        zone   = var.server_zone
+        value  = each.value
       }
     }
   }
