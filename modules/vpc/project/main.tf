@@ -21,6 +21,15 @@ resource "selectel_vpc_project_v2" "project_1" {
   }
 
   quotas {
+    resource_name = "volume_gigabytes_basic"
+    resource_quotas {
+      region = var.os_region
+      zone = var.server_zone
+      value = var.volume_gigabytes_basic_quotas
+    }
+  }
+
+  quotas {
     resource_name = "volume_gigabytes_fast"
     resource_quotas {
       region = var.os_region
