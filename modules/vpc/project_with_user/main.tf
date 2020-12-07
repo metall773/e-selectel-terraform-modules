@@ -1,12 +1,12 @@
 module "project" {
   source       = "../project"
   project_name = var.project_name
-  os_region                    = var.os_region
-  server_zone                  = var.server_zone
-  compute_cores_quotas         = var.compute_cores_quotas
-  compute_ram_quotas           = var.compute_ram_quotas
-  volume_gigabytes_basic       = var.volume_gigabytes_basic_quotas
-  volume_gigabytes_fast_quotas = var.volume_gigabytes_fast_quotas  
+  os_region                     = var.os_region
+  server_zone                   = var.server_zone
+  compute_cores_quotas          = var.compute_cores_quotas
+  compute_ram_quotas            = var.compute_ram_quotas
+  volume_gigabytes_basic_quotas = var.volume_gigabytes_basic_quotas
+  volume_gigabytes_fast_quotas  = var.volume_gigabytes_fast_quotas  
 }
 
 module "user" {
