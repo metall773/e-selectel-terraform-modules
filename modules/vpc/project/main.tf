@@ -1,9 +1,14 @@
+locals {
+  quotas_for_avaliability_zone = var.quotas["quotas_for_avaliability_zone"]
+  quotas_for_region            = var.quotas["quotas_for_region"]
+}
+
 resource "selectel_vpc_project_v2" "project_1" {
   name        = var.project_name
   auto_quotas = true
 
   dynamic "quotas" {
-    for_each = var.quotas_zone
+    for_each = local.quotas_for_avaliability_zone
     content {
       resource_name = quotas.key
       resource_quotas {
@@ -14,8 +19,8 @@ resource "selectel_vpc_project_v2" "project_1" {
     }
   }
 
-    dynamic "quotas" {
-    for_each = var.quotas_region
+  dynamic "quotas" {
+    for_each = local.quotas_for_region
     content {
       resource_name = quotas.key
       resource_quotas {
