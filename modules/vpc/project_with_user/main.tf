@@ -3,7 +3,7 @@ module "project" {
   project_name  = var.project_name
   os_region     = var.os_region
   server_zone   = var.server_zone
-  quotas_zone   = var.quotas
+  quotas        = var.quotas
 }
 
 module "user" {
