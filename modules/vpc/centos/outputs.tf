@@ -18,10 +18,10 @@ output "server_name" {
   value = var.server_name
 }
 
-output "biirix" {
+output "bitrix" {
   value = var.vm_install_bitrix
 }
 
-output "biirix_crm" {
+output "bitrix_crm" {
   value = var.vm_install_bitrix_crm
 }

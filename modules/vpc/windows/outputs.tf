@@ -10,6 +10,14 @@ output "server_root_volume_id" {
   value = openstack_blockstorage_volume_v3.volume_1.id
 }
 
-output "floating_ip" {
-  value = module.floatingip.floatingip_address
+output "server_FQDN" {
+  value = "${var.server_name}.${var.vm_dns_domain_name}"
+}
+
+output "server_FQDN_local" {
+  value = "local.${var.server_name}.${var.vm_dns_domain_name}"
+}
+
+output "server_name" {
+  value = var.server_name
 }
