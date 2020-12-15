@@ -42,6 +42,7 @@ data "template_file" "init" {
   vars = {
     vm_admin_pass = var.admin_pass
   }
+}
 
 resource "openstack_compute_instance_v2" "instance_1" {
   name              = var.server_name
