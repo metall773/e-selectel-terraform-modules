@@ -37,11 +37,17 @@ resource "openstack_blockstorage_volume_v3" "volume_1" {
   }
 }
 
+data "template_file" "init" {
+  template = file("${path.module}/first-boot.ps1")
+  vars = {
+    vm_admin_pass = var.admin_pass
+  }
+
 resource "openstack_compute_instance_v2" "instance_1" {
   name              = var.server_name
   image_id          = module.image_datasource.image_id
   flavor_id         = module.flavor.flavor_id
-  admin_pass        = var.admin_pass
+  user_data         = data.template_file.init.rendered
   availability_zone = var.server_zone
 
   network {

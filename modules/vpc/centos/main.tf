@@ -47,10 +47,6 @@ data "template_file" "init" {
   }
 }
 
-output "cloud-init" {
-  value = data.template_file.init.rendered
-}
-
 resource "openstack_compute_instance_v2" "instance_1" {
   name              = var.server_name
   image_id          = module.image_datasource.image_id

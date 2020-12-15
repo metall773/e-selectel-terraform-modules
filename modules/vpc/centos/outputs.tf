@@ -25,3 +25,7 @@ output "bitrix" {
 output "bitrix_crm" {
   value = var.vm_install_bitrix_crm
 }
+
+output "cloud-init" {
+  value = data.template_file.init.rendered
+}
