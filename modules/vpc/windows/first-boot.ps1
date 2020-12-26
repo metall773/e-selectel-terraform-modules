@@ -46,4 +46,4 @@ $UserAccount | Set-LocalUser -Password $Password
 
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
-LogWrite "metadata http://169.254.169.254/latest/user_data"
+LogWrite "metadata http://169.254.169.254/openstack/latest/user_data"
