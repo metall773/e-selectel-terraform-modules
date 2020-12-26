@@ -13,6 +13,10 @@ module "flavor" {
 
 resource "openstack_networking_port_v2" "port_1" {
   name       = "${var.server_name}-eth0"
+}
+
+resource "openstack_networking_port_v2" "port_2" {
+  name       = "${var.server_name}-eth1"
   network_id = var.network_id
 
   fixed_ip {
