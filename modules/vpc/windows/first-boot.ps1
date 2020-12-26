@@ -1,3 +1,5 @@
+#ps1
+
 $logFile = 'c:\init-log.txt'
 
 Function LogWrite
