@@ -39,15 +39,23 @@ if ( $choco_list -ne "" ) {
     LogWrite "No choco packages listed for install, skip..."
   }
 
+$user_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/user_data  -Method Get
+$meta_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/meta_data.json  -Method Get
+LogWrite $user_data
+LogWrite $meta_data
+
 LogWrite "Set admin pass..."
 $Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
 $UserAccount = Get-LocalUser -Name "Administrator"
 
 for ($x='' ;$x.length -le 300;$x=$x+'x'){
   $UserAccount | Set-LocalUser -Password $Password
+  LogWrite $x
   Start-Sleep -Milliseconds 1000
 }
 
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
-LogWrite "metadata http://169.254.169.254/openstack/latest/user_data"
+LogWrite "user_data http://169.254.169.254/openstack/latest/user_data"
+LogWrite "metadata http://169.254.169.254/openstack/latest/meta_data.json 
+"
