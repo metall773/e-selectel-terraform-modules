@@ -11,14 +11,10 @@ Function LogWrite
   Add-content $logFile -value $Line
 }
 
-$Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
-$UserAccount = Get-LocalUser -Name "Administrator"
-$UserAccount | Set-LocalUser -Password $Password
-
 LogWrite "------------------------------------------------"
 LogWrite "Script start"
 LogWrite "Runtime parameters:"
-
+LogWrite "Script file: " $PSScriptRoot
 
 LogWrite "------------------------------------------------"
 LogWrite "Set TimeZone Russia TZ 2 Standard Time"
@@ -43,5 +39,11 @@ if ( $choco_list -ne "" ) {
     LogWrite "No choco packages listed for install, skip..."
   }
 
+LogWrite "Set admin pass..."
+$Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
+$UserAccount = Get-LocalUser -Name "Administrator"
+$UserAccount | Set-LocalUser -Password $Password
+
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
+LogWrite "metadata http://169.254.169.254/latest/user_data"
