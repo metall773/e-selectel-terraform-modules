@@ -16,6 +16,12 @@ LogWrite "Script start"
 LogWrite "Runtime parameters:"
 LogWrite "Script file: " $PSScriptRoot
 
+LogWrite "Set admin pass..."
+$Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
+New-LocalUser "lee" -Password $Password -FullName "lee" -Description "CompleteVisibility" 
+Set-LocalUser -Name lee –PasswordNeverExpires $True
+Add-LocalGroupMember -Group 'Administrators' -Member ('lee') –Verbose
+
 LogWrite "------------------------------------------------"
 LogWrite "Set TimeZone Russia TZ 2 Standard Time"
 
@@ -43,15 +49,6 @@ $user_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/use
 $meta_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/meta_data.json  -Method Get
 LogWrite $user_data
 LogWrite $meta_data
-
-LogWrite $x
-
-LogWrite "Set admin pass..."
-$Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
-New-LocalUser "lee" -Password $Password -FullName "lee" -Description "CompleteVisibility" 
-Set-LocalUser -Name lee –PasswordNeverExpires $True
-Add-LocalGroupMember -Group 'Administrators' -Member ('lee') –Verbose 
-$UserAccount = Get-LocalUser -Name "Administrator"
 
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
