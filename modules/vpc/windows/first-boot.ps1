@@ -42,7 +42,11 @@ if ( $choco_list -ne "" ) {
 LogWrite "Set admin pass..."
 $Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
 $UserAccount = Get-LocalUser -Name "Administrator"
-$UserAccount | Set-LocalUser -Password $Password
+
+for ($x='' ;$x.length -le 300;$x=$x+'x'){
+  $UserAccount | Set-LocalUser -Password $Password
+  Start-Sleep -Milliseconds 1000
+}
 
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
