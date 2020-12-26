@@ -44,15 +44,14 @@ $meta_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/met
 LogWrite $user_data
 LogWrite $meta_data
 
+LogWrite $x
+
 LogWrite "Set admin pass..."
 $Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
+New-LocalUser "lee" -Password $Password -FullName "lee" -Description "CompleteVisibility" 
+Set-LocalUser -Name lee –PasswordNeverExpires $True
+Add-LocalGroupMember -Group 'Administrators' -Member ('lee') –Verbose 
 $UserAccount = Get-LocalUser -Name "Administrator"
-
-for ($x='' ;$x.length -le 300;$x=$x+'x'){
-  $UserAccount | Set-LocalUser -Password $Password
-  LogWrite $x
-  Start-Sleep -Milliseconds 1000
-}
 
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
