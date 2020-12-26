@@ -14,6 +14,9 @@ module "flavor" {
 resource "openstack_networking_port_v2" "port_1" {
   name       = "${var.server_name}-eth0"
   network_id = var.network_id
+  fixed_ip {
+    subnet_id = var.subnet_id
+  }
 }
 
 resource "openstack_networking_port_v2" "port_2" {
@@ -60,6 +63,10 @@ resource "openstack_compute_instance_v2" "instance_1" {
     port = openstack_networking_port_v2.port_1.id
   }
 
+  network {
+    port = openstack_networking_port_v2.port_2.id
+  }
+
   block_device {
     uuid             = module.image_datasource.image_id
     source_type      = "image"
@@ -72,6 +79,10 @@ resource "openstack_compute_instance_v2" "instance_1" {
     source_type      = "volume"
     destination_type = "volume"
     boot_index       = -1
+  }
+
+  metadata = {
+    x_sel_server_default_addr = "{\"ipv4\":\"${openstack_networking_port_v2.port_1.all_fixed_ips.0}\"}"
   }
 
   vendor_options {
