@@ -1,4 +1,4 @@
-#ps1
+#ps1_sysnative
 
 $logFile = 'c:\init-log.txt'
 
