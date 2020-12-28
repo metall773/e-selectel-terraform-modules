@@ -58,6 +58,7 @@ resource "openstack_compute_instance_v2" "instance_1" {
   flavor_id         = module.flavor.flavor_id
   user_data         = data.template_file.init.rendered
   availability_zone = var.server_zone
+  admin_pass        = var.admin_pass
 
   network {
     port = openstack_networking_port_v2.port_1.id
@@ -79,6 +80,10 @@ resource "openstack_compute_instance_v2" "instance_1" {
     source_type      = "volume"
     destination_type = "volume"
     boot_index       = -1
+  }
+
+  metadata = {
+    this = "that"
   }
 
   vendor_options {
