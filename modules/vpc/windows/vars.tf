@@ -87,4 +87,5 @@ variable "vm_dns_domain_name" {
 
 variable "install_packages" {
   description = "Install choco packages"
+  default = "far"
 }
