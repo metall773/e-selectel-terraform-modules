@@ -16,12 +16,6 @@ LogWrite "Script start"
 LogWrite "Runtime parameters:"
 LogWrite "Script file: " $PSScriptRoot
 
-#LogWrite "Set admin pass..."
-#$Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
-#New-LocalUser "lee" -Password $Password -FullName "lee" -Description "CompleteVisibility" 
-#Set-LocalUser -Name lee –PasswordNeverExpires $True
-#Add-LocalGroupMember -Group 'Administrators' -Member ('lee') –Verbose
-
 LogWrite "------------------------------------------------"
 LogWrite "Get Metadata"
 $user_data = Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/user_data  -Method Get

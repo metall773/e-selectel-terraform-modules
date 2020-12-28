@@ -48,7 +48,7 @@ resource "openstack_blockstorage_volume_v3" "volume_1" {
 data "template_file" "init" {
   template = file("${path.module}/first-boot.ps1")
   vars = {
-    vm_admin_pass = var.admin_pass
+    install_packages = var.install_packages
   }
 }
 
