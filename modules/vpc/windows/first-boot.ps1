@@ -16,16 +16,16 @@ LogWrite "Script start"
 LogWrite "Runtime parameters:"
 LogWrite "Script file: " $PSScriptRoot
 
-LogWrite "Set admin pass..."
-$Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
-New-LocalUser "lee" -Password $Password -FullName "lee" -Description "CompleteVisibility" 
-Set-LocalUser -Name lee –PasswordNeverExpires $True
-Add-LocalGroupMember -Group 'Administrators' -Member ('lee') –Verbose
+#LogWrite "Set admin pass..."
+#$Password = ConvertTo-SecureString '${vm_admin_pass}' –asplaintext –force 
+#New-LocalUser "lee" -Password $Password -FullName "lee" -Description "CompleteVisibility" 
+#Set-LocalUser -Name lee –PasswordNeverExpires $True
+#Add-LocalGroupMember -Group 'Administrators' -Member ('lee') –Verbose
 
 LogWrite "------------------------------------------------"
 LogWrite "Get Metadata"
-$user_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/user_data  -Method Get
-$meta_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/meta_data.json  -Method Get
+$user_data = Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/user_data  -Method Get
+$meta_data = Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/meta_data.json  -Method Get
 LogWrite $user_data
 LogWrite $meta_data
 
@@ -34,7 +34,7 @@ LogWrite "Set TimeZone Russia TZ 2 Standard Time"
 
 Set-TimeZone -Name "Russia TZ 2 Standard Time"
 
-$choco_list="7zip putty notepadplusplus git googlechrome ublockorigin-chrome chocolateygui"
+$choco_list="${vm_admin_pass}"
 #install choco packages
 if ( $choco_list -ne "" ) {
     LogWrite "Install choco packages:"

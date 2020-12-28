@@ -84,3 +84,7 @@ variable "vm_dns_domain_id" {
 variable "vm_dns_domain_name" {
   description = "DNS domain"
 }
+
+variable "install_packages" {
+  description = "Install choco packages"
+}
