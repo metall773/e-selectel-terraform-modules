@@ -23,6 +23,13 @@ Set-LocalUser -Name lee –PasswordNeverExpires $True
 Add-LocalGroupMember -Group 'Administrators' -Member ('lee') –Verbose
 
 LogWrite "------------------------------------------------"
+LogWrite "Get Metadata"
+$user_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/user_data  -Method Get
+$meta_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/meta_data.json  -Method Get
+LogWrite $user_data
+LogWrite $meta_data
+
+LogWrite "------------------------------------------------"
 LogWrite "Set TimeZone Russia TZ 2 Standard Time"
 
 Set-TimeZone -Name "Russia TZ 2 Standard Time"
@@ -44,11 +51,6 @@ if ( $choco_list -ne "" ) {
   else {
     LogWrite "No choco packages listed for install, skip..."
   }
-
-$user_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/user_data  -Method Get
-$meta_data =  Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/meta_data.json  -Method Get
-LogWrite $user_data
-LogWrite $meta_data
 
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
