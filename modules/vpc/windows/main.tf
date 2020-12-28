@@ -83,7 +83,7 @@ resource "openstack_compute_instance_v2" "instance_1" {
   }
 
   metadata = {
-    this = "that"
+    admin_pass = var.admin_pass
   }
 
   vendor_options {
