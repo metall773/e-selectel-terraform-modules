@@ -28,7 +28,7 @@ LogWrite "Set TimeZone Russia TZ 2 Standard Time"
 
 Set-TimeZone -Name "Russia TZ 2 Standard Time"
 
-$choco_list="${vm_admin_pass}"
+$choco_list="${install_packages}"
 #install choco packages
 if ( $choco_list -ne "" ) {
     LogWrite "Install choco packages:"
