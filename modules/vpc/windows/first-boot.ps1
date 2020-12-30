@@ -54,7 +54,7 @@ Set-Service sshd -StartupType Automatic
 Start-Service -Name sshd
 
 #firewall allow 22 tcp connection
-New-NetFirewallRule -Name sshd    -DisplayName 'OpenSSH Server (sshd)'    -Enabled True    -Direction Inbound    -Protocol TCP    -Action Allow    -LocalPort 22
+New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
 
 #add ssh keys
 $ssh_user="Administrator"
