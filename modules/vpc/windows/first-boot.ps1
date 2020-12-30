@@ -51,6 +51,13 @@ LogWrite "Install openssh service"
 $file = "$env:ProgramFiles\OpenSSH-Win64\install-sshd.ps1"
 powershell.exe -ExecutionPolicy ByPass -File $file
 Set-Service sshd -StartupType Automatic
+
+#remove 2 last line from config
+$stream = [IO.File]::OpenWrite('$env:ProgramData\ssh\sshd_config')
+$stream.SetLength($stream.Length - 2)
+$stream.Close()
+$stream.Dispose()
+
 Start-Service -Name sshd
 
 #firewall allow 22 tcp connection
@@ -60,6 +67,13 @@ New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled Tru
 $ssh_user="Administrator"
 New-Item -ItemType Directory -Force -Path "C:\Users\$ssh_user\.ssh"
 
+#change defaul shell to powershell
+New-ItemProperty  -Path "HKLM:\SOFTWARE\OpenSSH"  -Name "DefaultShell"  -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"  -PropertyType String  -Force
+
+Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
+Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
+Remove-Item –path "$env:temp\e-keys" -Force -Recurse
+
 #set key file acl
 $acl = Get-Acl "C:\Users\$ssh_user\.ssh\authorized_keys"
 $acl.SetAccessRuleProtection($true, $false)
@@ -68,13 +82,6 @@ $systemRule = New-Object system.security.accesscontrol.filesystemaccessrule("SYS
 $acl.SetAccessRule($administratorsRule)
 $acl.SetAccessRule($systemRule)
 $acl | Set-Acl
-
-#change defaul shell to powershell
-New-ItemProperty  -Path "HKLM:\SOFTWARE\OpenSSH"  -Name "DefaultShell"  -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"  -PropertyType String  -Force
-
-Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
-Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
-Remove-Item –path "$env:temp\e-keys" -Force -Recurse
 
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
