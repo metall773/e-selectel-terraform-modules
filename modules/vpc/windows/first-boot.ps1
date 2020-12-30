@@ -53,10 +53,8 @@ powershell.exe -ExecutionPolicy ByPass -File $file
 Set-Service sshd -StartupType Automatic
 
 #remove 2 last line from config
-$stream = [IO.File]::OpenWrite('$env:ProgramData\ssh\sshd_config')
-$stream.SetLength($stream.Length - 2)
-$stream.Close()
-$stream.Dispose()
+(Get-Content "$env:ProgramData\ssh\sshd_config").replace('$Match Group administrators', '#Match Group administrators') | Set-Content "$env:ProgramData\ssh\sshd_config"
+(Get-Content "$env:ProgramData\ssh\sshd_config").replace('$       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_', '#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_') | Set-Content "$env:ProgramData\ssh\sshd_config"
 
 Start-Service -Name sshd
 
