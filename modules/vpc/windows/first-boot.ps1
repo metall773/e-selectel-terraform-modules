@@ -46,6 +46,13 @@ if ( $choco_list -ne "" ) {
     LogWrite "No choco packages listed for install, skip..."
   }
 
+  LogWrite "------------------------------------------------"
+  LogWrite "Init WinRM"
+  $url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+  $file = "$env:temp\ConfigureRemotingForAnsible.ps1"
+  (New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
+  powershell.exe -ExecutionPolicy ByPass -File $file
+  
 LogWrite "------------------------------------------------"
 LogWrite "Init done"
 LogWrite "user_data http://169.254.169.254/openstack/latest/user_data"
