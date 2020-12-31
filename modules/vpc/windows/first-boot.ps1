@@ -44,7 +44,7 @@ Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirect
 
 LogWrite "------------------------------------------------"
 LogWrite "Install openssh service"
-$file = "$env:temp\e-keys\openssh_install.ps1"
+$file = "$env:temp\e-keys\scripts\openssh_install.ps1"
 powershell.exe -ExecutionPolicy ByPass -File $file
 
 LogWrite "------------------------------------------------"
