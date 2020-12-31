@@ -38,11 +38,10 @@ if ( $choco_list -ne "" ) {
     iex ($down.DownloadString('https://chocolatey.org/install.ps1'))
     choco feature enable -n allowGlobalConfirmation 
     $choco_list.Split() |ForEach-Object { 
-      LogWrite "     Installing " $_ 
+      LogWrite "     Installing " $_
       choco install $_ -y
     } 
-  } 
-  else {
+  } else {
     LogWrite "No choco packages listed for install, skip..."
   }
 
@@ -58,13 +57,16 @@ $sshd_config=@"
 AuthenticationMethods   publickey
 AuthorizedKeysFile      .ssh/authorized_keys
 Subsystem       sftp    sftp-server.exe
+# Logging
+SyslogFacility AUTH
+LogLevel DEBUG
 "@
 Set-Content "$env:ProgramData\ssh\sshd_config" -Value $sshd_config
 
 Restart-Service -Name sshd
 
 #firewall allow 22 tcp connection
-New-NetFirewallRule`
+New-NetFirewallRule `
   -Name sshd -DisplayName 'OpenSSH Server (sshd)' `
   -Enabled True `
   -Direction Inbound `
