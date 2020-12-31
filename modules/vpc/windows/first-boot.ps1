@@ -65,7 +65,4 @@ New-ItemProperty `
   -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
   -PropertyType String `
   -Force
-#get keys from repo
-Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
-Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
-Remove-Item –path "$env:temp\e-keys" -Force -Recurse
+#get keys from re
