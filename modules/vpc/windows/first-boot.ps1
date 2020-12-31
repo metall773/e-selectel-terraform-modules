@@ -13,15 +13,7 @@ Function LogWrite
 
 LogWrite "------------------------------------------------"
 LogWrite "Script start"
-LogWrite "Runtime parameters:"
 LogWrite "Script file: " $PSScriptRoot
-
-LogWrite "------------------------------------------------"
-LogWrite "Get Metadata"
-$user_data = Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/user_data  -Method Get
-$meta_data = Invoke-RestMethod -Uri http://169.254.169.254/openstack/latest/meta_data.json  -Method Get
-LogWrite $user_data
-LogWrite $meta_data
 
 LogWrite "------------------------------------------------"
 LogWrite "Set TimeZone Russia TZ 2 Standard Time"
@@ -65,3 +57,23 @@ Set-Content "$env:ProgramData\ssh\sshd_config" -Value $sshd_config
 
 Restart-Service -Name sshd
 
+#firewall allow 22 tcp connection
+New-NetFirewallRule `
+  -Name sshd -DisplayName 'OpenSSH Server (sshd)' `
+  -Enabled True `
+  -Direction Inbound `
+  -Protocol TCP `
+  -Action Allow `
+  -LocalPort 22
+
+#add ssh keys
+$ssh_user="Administrator"
+New-Item -ItemType Directory -Force -Path "C:\Users\$ssh_user\.ssh"
+
+#change defaul shell to powershell
+New-ItemProperty `
+  -Path "HKLM:\SOFTWARE\OpenSSH" `
+  -Name "DefaultShell" `
+  -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
+  -PropertyType String `
+  -Force
