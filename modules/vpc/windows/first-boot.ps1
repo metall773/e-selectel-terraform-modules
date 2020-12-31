@@ -46,23 +46,11 @@ LogLevel DEBUG
 "@
 Set-Content "$env:ProgramData\ssh\sshd_config" -Value $sshd_config
 Restart-Service -Name sshd
-New-NetFirewallRule `
-  -Name sshd -DisplayName 'OpenSSH Server (sshd)' `
-  -Enabled True `
-  -Direction Inbound `
-  -Protocol TCP `
-  -Action Allow `
-  -LocalPort 22
-$ssh_user="Administrator"
-New-Item -ItemType Directory -Force -Path "C:\Users\$ssh_user\.ssh"
-New-ItemProperty `
-  -Path "HKLM:\SOFTWARE\OpenSSH" `
-  -Name "DefaultShell" `
-  -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
-  -PropertyType String `
-  -Force
+New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+New-Item -ItemType Directory -Force -Path "C:\Users\Administrator\.ssh"
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name "DefaultShell" -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
 Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
-Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
+Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\Administrator\.ssh\authorized_keys"
 Remove-Item –path "$env:temp\e-keys" -Force -Recurse
 $acl = Get-Acl "C:\Users\$ssh_user\.ssh\authorized_keys"
 $acl.SetAccessRuleProtection($true, $false)
