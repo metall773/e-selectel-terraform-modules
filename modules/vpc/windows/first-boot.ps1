@@ -79,23 +79,4 @@ New-ItemProperty `
   -Force
 
 #get keys from repo
-#Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
-Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
-Remove-Item –path "$env:temp\e-keys" -Force -Recurse
-
-#set key file acl
-$acl = Get-Acl "C:\Users\$ssh_user\.ssh\authorized_keys"
-$acl.SetAccessRuleProtection($true, $false)
-$administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
-$systemRule = New-Object system.security.accesscontrol.filesystemaccessrule("SYSTEM","FullControl","Allow")
-$acl.SetAccessRule($administratorsRule)
-$acl.SetAccessRule($systemRule)
-$acl | Set-Acl
-
-LogWrite "------------------------------------------------"
-LogWrite "Init done"
-LogWrite "user_data http://169.254.169.254/openstack/latest/user_data"
-LogWrite "metadata http://169.254.169.254/openstack/latest/meta_data.json"
-LogWrite "------------------------------------------------"
-LogWrite "Install windows update..."
-usoclient StartScan
+Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
