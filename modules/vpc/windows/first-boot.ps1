@@ -1,7 +1,5 @@
 #ps1_sysnative
-
 $logFile = 'c:\init-log.txt'
-
 Function LogWrite
 {
   Param ([string]$log1, [string]$log2, [string]$log3, [string]$log4,  [string]$log5)
@@ -10,16 +8,12 @@ Function LogWrite
   Write-host $line
   Add-content $logFile -value $Line
 }
-
 LogWrite "------------------------------------------------"
 LogWrite "Script start"
 LogWrite "Script file: " $PSScriptRoot
-
 LogWrite "------------------------------------------------"
 LogWrite "Set TimeZone Russia TZ 2 Standard Time"
-
 Set-TimeZone -Name "Russia TZ 2 Standard Time"
-
 $choco_list="${install_packages}"
 #install choco packages
 if ( $choco_list -ne "" ) {
@@ -36,15 +30,12 @@ if ( $choco_list -ne "" ) {
   } else {
     LogWrite "No choco packages listed for install, skip..."
   }
-
 LogWrite "------------------------------------------------"
 LogWrite "Install openssh service"
 $file = "$env:ProgramFiles\OpenSSH-Win64\install-sshd.ps1"
 powershell.exe -ExecutionPolicy ByPass -File $file
 Set-Service sshd -StartupType Automatic
 Start-Service -Name sshd
-
-#remove 2 last line from config
 $sshd_config=@"
 AuthenticationMethods   publickey
 AuthorizedKeysFile      .ssh/authorized_keys
@@ -54,10 +45,7 @@ SyslogFacility AUTH
 LogLevel DEBUG
 "@
 Set-Content "$env:ProgramData\ssh\sshd_config" -Value $sshd_config
-
 Restart-Service -Name sshd
-
-#firewall allow 22 tcp connection
 New-NetFirewallRule `
   -Name sshd -DisplayName 'OpenSSH Server (sshd)' `
   -Enabled True `
@@ -65,25 +53,17 @@ New-NetFirewallRule `
   -Protocol TCP `
   -Action Allow `
   -LocalPort 22
-
-#add ssh keys
 $ssh_user="Administrator"
 New-Item -ItemType Directory -Force -Path "C:\Users\$ssh_user\.ssh"
-
-#change defaul shell to powershell
 New-ItemProperty `
   -Path "HKLM:\SOFTWARE\OpenSSH" `
   -Name "DefaultShell" `
   -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
   -PropertyType String `
   -Force
-
-#get keys from repo
 Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
 Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
 Remove-Item –path "$env:temp\e-keys" -Force -Recurse
-
-#set key file acl
 $acl = Get-Acl "C:\Users\$ssh_user\.ssh\authorized_keys"
 $acl.SetAccessRuleProtection($true, $false)
 $administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
