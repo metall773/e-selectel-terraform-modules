@@ -2,27 +2,25 @@
 test9Set-TimeZone -Name "Russia TZ 2 Standard Time"
 $choco_list="${install_packages}"
 if ( $choco_list -ne "" ) {
-    LogWrite "Install choco packages:"
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    $down = New-Object System.Net.WebClient
-    
-    iex ($down.DownloadString('https://chocolatey.org/install.ps1'))
-    choco feature enable -n allowGlobalConfirmation 
-    $choco_list.Split() |ForEach-Object { 
-      LogWrite "     Installing " $_
-      choco install $_ -y
-    } 
-  } else {
-    LogWrite "No choco packages listed for install, skip..."
-  }
+  LogWrite "Install choco packages:"
+  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+  $down = New-Object System.Net.WebClient
+  iex ($down.DownloadString('https://chocolatey.org/install.ps1'))
+  choco feature enable -n allowGlobalConfirmation 
+  $choco_list.Split() |ForEach-Object { 
+    LogWrite "     Installing " $_
+    choco install $_ -y
+  } 
+} else {
+  LogWrite "No choco packages listed for install, skip..."
+}
 powershell.exe -ExecutionPolicy ByPass -File "$env:ProgramFiles\OpenSSH-Win64\install-sshd.ps1"
 Set-Service sshd -StartupType Automatic
 Start-Service -Name sshd
 $sshd_config=@"
-AuthenticationMethods   publickey
-AuthorizedKeysFile      .ssh/authorized_keys
-Subsystem       sftp    sftp-server.exe
-# Logging
+AuthenticationMethods publickey
+AuthorizedKeysFile .ssh/authorized_keys
+Subsystem sftp sftp-server.exe
 SyslogFacility AUTH
 LogLevel DEBUG
 "@
