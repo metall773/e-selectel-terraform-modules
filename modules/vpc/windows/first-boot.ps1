@@ -51,12 +51,17 @@ LogWrite "Install openssh service"
 $file = "$env:ProgramFiles\OpenSSH-Win64\install-sshd.ps1"
 powershell.exe -ExecutionPolicy ByPass -File $file
 Set-Service sshd -StartupType Automatic
+Start-Service -Name sshd
 
 #remove 2 last line from config
-(Get-Content "$env:ProgramData\ssh\sshd_config").replace('$Match Group administrators', '#Match Group administrators') | Set-Content "$env:ProgramData\ssh\sshd_config"
-(Get-Content "$env:ProgramData\ssh\sshd_config").replace('$       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_', '#       AuthorizedKeysFile __PROGRAMDATA__/ssh/administrators_authorized_') | Set-Content "$env:ProgramData\ssh\sshd_config"
+$sshd_config=@"
+AuthenticationMethods   publickey
+AuthorizedKeysFile      .ssh/authorized_keys
+Subsystem       sftp    sftp-server.exe
+"@
+Set-Content "$env:ProgramData\ssh\sshd_config" -Value $sshd_config
 
-Start-Service -Name sshd
+Restart-Service -Name sshd
 
 #firewall allow 22 tcp connection
 New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
