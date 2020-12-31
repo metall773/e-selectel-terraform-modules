@@ -1,5 +1,5 @@
 #ps1_sysnative
-test9Set-TimeZone -Name "Russia TZ 2 Standard Time"
+Set-TimeZone -Name "Russia TZ 2 Standard Time"
 $choco_list="${install_packages}"
 if ( $choco_list -ne "" ) {
   LogWrite "Install choco packages:"
