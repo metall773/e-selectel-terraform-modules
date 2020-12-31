@@ -38,47 +38,20 @@ if ( $choco_list -ne "" ) {
   }
 
 LogWrite "------------------------------------------------"
-LogWrite "Install openssh service"
-$file = "$env:ProgramFiles\OpenSSH-Win64\install-sshd.ps1"
-powershell.exe -ExecutionPolicy ByPass -File $file
-Set-Service sshd -StartupType Automatic
-Start-Service -Name sshd
-
-#remove 2 last line from config
-$sshd_config=@"
-AuthenticationMethods   publickey
-AuthorizedKeysFile      .ssh/authorized_keys
-Subsystem       sftp    sftp-server.exe
-# Logging
-SyslogFacility AUTH
-LogLevel DEBUG
-"@
-Set-Content "$env:ProgramData\ssh\sshd_config" -Value $sshd_config
-
-Restart-Service -Name sshd
-
-#firewall allow 22 tcp connection
-New-NetFirewallRule `
-  -Name sshd -DisplayName 'OpenSSH Server (sshd)' `
-  -Enabled True `
-  -Direction Inbound `
-  -Protocol TCP `
-  -Action Allow `
-  -LocalPort 22
-
-#add ssh keys
-$ssh_user="Administrator"
-New-Item -ItemType Directory -Force -Path "C:\Users\$ssh_user\.ssh"
-
-#change defaul shell to powershell
-New-ItemProperty `
-  -Path "HKLM:\SOFTWARE\OpenSSH" `
-  -Name "DefaultShell" `
-  -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
-  -PropertyType String `
-  -Force
-
+LogWrite "clone repo"
 #get keys from repo
 Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
 Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
-Remove-Item –path "$env:temp\e-keys" -Force -Recurse
+
+LogWrite "------------------------------------------------"
+LogWrite "Install openssh service"
+$file = "$env:temp\e-keys\openssh_install.ps1"
+powershell.exe -ExecutionPolicy ByPass -File $file
+
+LogWrite "------------------------------------------------"
+LogWrite "Init done"
+LogWrite "user_data http://169.254.169.254/openstack/latest/user_data"
+LogWrite "metadata http://169.254.169.254/openstack/latest/meta_data.json"
+LogWrite "------------------------------------------------"
+LogWrite "Install windows update..."
+usoclient StartScan
