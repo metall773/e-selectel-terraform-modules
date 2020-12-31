@@ -64,14 +64,25 @@ Set-Content "$env:ProgramData\ssh\sshd_config" -Value $sshd_config
 Restart-Service -Name sshd
 
 #firewall allow 22 tcp connection
-New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+New-NetFirewallRule`
+  -Name sshd -DisplayName 'OpenSSH Server (sshd)' `
+  -Enabled True `
+  -Direction Inbound `
+  -Protocol TCP `
+  -Action Allow `
+  -LocalPort 22
 
 #add ssh keys
 $ssh_user="Administrator"
 New-Item -ItemType Directory -Force -Path "C:\Users\$ssh_user\.ssh"
 
 #change defaul shell to powershell
-New-ItemProperty  -Path "HKLM:\SOFTWARE\OpenSSH"  -Name "DefaultShell"  -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"  -PropertyType String  -Force
+New-ItemProperty `
+  -Path "HKLM:\SOFTWARE\OpenSSH" `
+  -Name "DefaultShell" `
+  -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
+  -PropertyType String `
+  -Force
 
 #get keys from repo
 Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
@@ -93,4 +104,4 @@ LogWrite "user_data http://169.254.169.254/openstack/latest/user_data"
 LogWrite "metadata http://169.254.169.254/openstack/latest/meta_data.json"
 LogWrite "------------------------------------------------"
 LogWrite "Install windows update..."
-wuauclt /updatenow
+usoclient StartScan
