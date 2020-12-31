@@ -77,3 +77,17 @@ New-ItemProperty `
   -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" `
   -PropertyType String `
   -Force
+
+#get keys from repo
+Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
+Get-Content "$env:temp\e-keys\*.pub" | Set-Content "C:\Users\$ssh_user\.ssh\authorized_keys"
+Remove-Item –path "$env:temp\e-keys" -Force -Recurse
+
+#set key file acl
+$acl = Get-Acl "C:\Users\$ssh_user\.ssh\authorized_keys"
+$acl.SetAccessRuleProtection($true, $false)
+$administratorsRule = New-Object system.security.accesscontrol.filesystemaccessrule("Administrators","FullControl","Allow")
+$systemRule = New-Object system.security.accesscontrol.filesystemaccessrule("SYSTEM","FullControl","Allow")
+$acl.SetAccessRule($administratorsRule)
+$acl.SetAccessRule($systemRule)
+$acl | Set-Acl
