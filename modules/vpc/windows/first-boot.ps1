@@ -15,8 +15,6 @@ if ( $choco_list -ne "" ) {
   } else {
     LogWrite "No choco packages listed for install, skip..."
   }
-LogWrite "------------------------------------------------"
-LogWrite "Install openssh service"
 $file = "$env:ProgramFiles\OpenSSH-Win64\install-sshd.ps1"
 powershell.exe -ExecutionPolicy ByPass -File $file
 Set-Service sshd -StartupType Automatic
