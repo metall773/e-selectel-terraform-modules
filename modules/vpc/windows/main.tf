@@ -36,7 +36,7 @@ module "image_datasource" {
 resource "openstack_blockstorage_volume_v3" "volume_1" {
   name              = "volume-for-${var.server_name}"
   size              = var.server_second_disk_gb
-  image_id          = module.image_datasource.image_id
+  #image_id          = module.image_datasource.image_id
   volume_type       = var.server_second_volume_type
   availability_zone = var.server_zone
 
