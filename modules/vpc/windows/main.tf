@@ -41,15 +41,13 @@ resource "openstack_compute_instance_v2" "instance_1" {
     boot_index       = 0
   }
 
-  dynamic  "block_device" {
+  dynamic "block_device" {
     for_each = openstack_blockstorage_volume_v3.volumes
     content {
-      block_device {
-        uuid             = openstack_blockstorage_volume_v3.volumes[block_device.key].id
-        source_type      = "volume"
-        destination_type = "volume"
-        boot_index       = -1
-      }
+      uuid             = openstack_blockstorage_volume_v3.volumes[block_device.key].id
+      source_type      = "volume"
+      destination_type = "volume"
+      boot_index       = -1
     }
   }
 
