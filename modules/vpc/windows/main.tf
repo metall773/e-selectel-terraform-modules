@@ -41,13 +41,13 @@ resource "openstack_compute_instance_v2" "instance_1" {
     boot_index       = 0
   }
 
-/*  block_device {
+  block_device {
     for_each         = module.volumes
-    uuid             = module.volumes[each.key].id
+    uuid             = openstack_blockstorage_volume_v3.volumes[each.key].id
     source_type      = "volume"
     destination_type = "volume"
     boot_index       = -1
-  }*/
+  }
 
   vendor_options {
     ignore_resize_confirmation = true
