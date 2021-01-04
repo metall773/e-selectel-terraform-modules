@@ -7,7 +7,8 @@ output "server_port_id" {
 }
 
 output "server_root_volume_id" {
-  value = openstack_blockstorage_volume_v3.volume_1.id
+  for_each = module.volumes
+  value    = each.value.id
 }
 
 output "server_FQDN" {
