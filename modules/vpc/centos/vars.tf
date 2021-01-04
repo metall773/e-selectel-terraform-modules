@@ -39,7 +39,7 @@ variable "vm_install_autoupdate" {
 }
 variable "vm_install_fail2ban" {
   description = "If set to yes, install fail2ban"
-  default     = "yes"
+  default     = "no"
 }
 variable "vm_firewall_udp_ports" {
   description = "List TCP ports to open on Firewalld by bootstrap script"
