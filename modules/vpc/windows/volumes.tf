@@ -5,8 +5,9 @@ module "image_datasource" {
 
 resource "openstack_blockstorage_volume_v3" "volumes" {
   for_each          = var.data_volumes
-  name              = "${each.key}-for-${var.server_name}"
+  availability_zone = var.server_zone
+  description       = "${each.key}-for-${var.server_name}"
+  name              = each.key
   size              = each.value.size_gb
   volume_type       = each.value.volume_type
-  availability_zone = var.server_zone
 }
