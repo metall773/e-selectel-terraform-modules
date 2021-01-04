@@ -35,10 +35,11 @@ resource "openstack_compute_instance_v2" "instance_1" {
   }
 
   block_device {
-    uuid             = module.image_datasource.image_id
-    source_type      = "image"
-    destination_type = "local"
-    boot_index       = 0
+    uuid                 = module.image_datasource.image_id
+    source_type          = "image"
+    destination_type     = "local"
+    boot_index           = 0
+    enable_online_resize = true
   }
 
   dynamic "block_device" {
