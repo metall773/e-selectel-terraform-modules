@@ -33,16 +33,12 @@ module "image_datasource" {
   image_name = var.server_image_name
 }
 
-resource "openstack_blockstorage_volume_v3" "volume_1" {
+resource "openstack_blockstorage_volume_v3" "volume" {
+  for_each          = var.data_volumes
   name              = "volume-for-${var.server_name}"
-  size              = var.server_second_disk_gb
-  #image_id          = module.image_datasource.image_id
-  volume_type       = var.server_second_volume_type
+  size              = each.size_gb
+  volume_type       = each.volume_type
   availability_zone = var.server_zone
-
-  lifecycle {
-    ignore_changes = [image_id]
-  }
 }
 
 data "template_file" "init" {
@@ -76,14 +72,11 @@ resource "openstack_compute_instance_v2" "instance_1" {
   }
 
   block_device {
-    uuid             = openstack_blockstorage_volume_v3.volume_1.id
+    for_each         = module.volume
+    uuid             = each.volume.id
     source_type      = "volume"
     destination_type = "volume"
     boot_index       = -1
-  }
-
-  metadata = {
-    admin_pass = var.admin_pass
   }
 
   vendor_options {

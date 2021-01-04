@@ -15,11 +15,6 @@ LogWrite "------------------------------------------------"
 LogWrite "Script start"
 LogWrite "Script file: " $PSScriptRoot
 
-LogWrite "------------------------------------------------"
-LogWrite "Set TimeZone Russia TZ 2 Standard Time"
-
-Set-TimeZone -Name "Russia TZ 2 Standard Time"
-
 $choco_list="${install_packages}"
 #install choco packages
 if ( $choco_list -ne "" ) {
@@ -40,7 +35,11 @@ if ( $choco_list -ne "" ) {
 LogWrite "------------------------------------------------"
 LogWrite "clone repo"
 #get keys from repo
-Start-Process -FilePath "$env:ProgramFiles\git\bin\git.exe" -Wait -WorkingDirectory $env:temp -ArgumentList "clone https://github.com/metall773/e-keys.git"
+Start-Process `
+  -FilePath "$env:ProgramFiles\git\bin\git.exe" `
+  -Wait `
+  -WorkingDirectory $env:temp `
+  -ArgumentList "clone https://github.com/metall773/e-keys.git"
 
 LogWrite "------------------------------------------------"
 LogWrite "Install openssh service"
@@ -52,5 +51,3 @@ LogWrite "Init done"
 LogWrite "user_data http://169.254.169.254/openstack/latest/user_data"
 LogWrite "metadata http://169.254.169.254/openstack/latest/meta_data.json"
 LogWrite "------------------------------------------------"
-LogWrite "Install windows update..."
-usoclient StartScan

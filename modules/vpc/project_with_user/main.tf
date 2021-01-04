@@ -1,9 +1,9 @@
 module "project" {
-  source        = "../project"
-  project_name  = var.project_name
-  os_region     = var.os_region
-  server_zone   = var.server_zone
-  quotas        = var.quotas
+  source       = "../project"
+  project_name = var.project_name
+  os_region    = var.os_region
+  server_zone  = var.server_zone
+  quotas       = var.quotas
 }
 
 module "user" {

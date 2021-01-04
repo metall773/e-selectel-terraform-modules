@@ -11,18 +11,18 @@ variable "server_root_disk_gb" {
 }
 
 variable "server_name" {
-  description = "server name in selectel console"  
-  default = "server_1"
+  description = "server name in selectel console"
+  default     = "server_1"
 }
 
 variable "server_image_name" {
   description = "Predefined name from selectel image list"
-  default = "CentOS 8 64-bit"
+  default     = "CentOS 8 64-bit"
 }
 
 variable "server_zone" {
-  description = "Availability zone for server deploy"  
-  default = "ru-3a"
+  description = "Availability zone for server deploy"
+  default     = "ru-3a"
 }
 
 variable "server_ssh_key" {}
@@ -31,11 +31,11 @@ variable "server_ssh_key_user" {}
 
 variable "vm_packages_4_install" {
   description = "install centos packeges by bootstrap script"
-  default = ""
+  default     = ""
 }
 variable "vm_install_autoupdate" {
   description = "enable centos autoupdate by bootstrap script"
-  default = "yes"
+  default     = "yes"
 }
 variable "vm_install_fail2ban" {
   description = "If set to yes, install fail2ban"
@@ -43,23 +43,23 @@ variable "vm_install_fail2ban" {
 }
 variable "vm_firewall_udp_ports" {
   description = "List TCP ports to open on Firewalld by bootstrap script"
-  default = ""
+  default     = ""
 }
 variable "vm_firewall_tcp_ports" {
   description = "List TCP ports to open on Firewalld by bootstrap script"
-  default = "22"
+  default     = "22"
 }
 variable "vm_install_bitrix" {
   description = "Deploy bitrix by bootstrap script"
-  default = "no"
+  default     = "no"
 }
 variable "vm_install_bitrix_crm" {
   description = "Deploy bitrix CRM by bootstrap script"
-  default = "no"
+  default     = "no"
 }
 variable "vm_admin-username" {
   description = "sudom, wheel user name"
-  default = "tf-user"
+  default     = "tf-user"
 }
 
 variable "network_id" {
@@ -85,5 +85,5 @@ variable "vm_dns_domain_name" {
 
 variable "vm_firewall_sshd_net" {
   description = "Allow connect to sshd from listen network"
-  default  = "any"
+  default     = "any"
 }

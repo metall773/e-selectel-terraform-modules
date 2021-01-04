@@ -19,13 +19,13 @@ variable "server_second_volume_type" {
 }
 
 variable "server_name" {
-  description = "server name in selectel console"  
-  default = "server_1"
+  description = "server name in selectel console"
+  default     = "server_1"
 }
 
 variable "server_image_name" {
   description = "Predefined name from selectel image list"
-  default = "Windows Server 2016 Standard"
+  default     = "Windows Server 2016 Standard"
 }
 
 #[root@jenkins e-selectel-terraform]# openstack image list
@@ -87,5 +87,10 @@ variable "vm_dns_domain_name" {
 
 variable "install_packages" {
   description = "Install choco packages"
-  default = "far"
+  default     = "openssh git"
+}
+
+variable "data_volumes" {
+  description = "list of data volumes"
+  type        = map(any)
 }
