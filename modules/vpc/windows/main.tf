@@ -11,36 +11,6 @@ module "flavor" {
   flavor_local_disk_gb = var.server_root_disk_gb
 }
 
-resource "openstack_networking_port_v2" "port_1" {
-  name       = "${var.server_name}-eth0"
-  network_id = var.network_id
-  fixed_ip {
-    subnet_id = var.subnet_id
-  }
-}
-
-resource "openstack_networking_port_v2" "port_2" {
-  name       = "${var.server_name}-eth1"
-  network_id = var.network_id
-
-  fixed_ip {
-    subnet_id = var.subnet_id
-  }
-}
-
-module "image_datasource" {
-  source     = "../image_datasource"
-  image_name = var.server_image_name
-}
-
-resource "openstack_blockstorage_volume_v3" "volume" {
-  for_each          = var.data_volumes
-  name              = "volume-for-${var.server_name}"
-  size              = each.size_gb
-  volume_type       = each.volume_type
-  availability_zone = var.server_zone
-}
-
 data "template_file" "init" {
   template = file("${path.module}/first-boot.ps1")
   vars = {
@@ -72,8 +42,8 @@ resource "openstack_compute_instance_v2" "instance_1" {
   }
 
   block_device {
-    for_each         = module.volume
-    uuid             = each.volume.id
+    for_each         = module.volumes
+    uuid             = each.volumes.id
     source_type      = "volume"
     destination_type = "volume"
     boot_index       = -1
@@ -82,22 +52,4 @@ resource "openstack_compute_instance_v2" "instance_1" {
   vendor_options {
     ignore_resize_confirmation = true
   }
-}
-
-resource "selectel_domains_record_v1" "a_record_local" {
-  domain_id = var.vm_dns_domain_id
-  name      = "local.${var.server_name}.${var.vm_dns_domain_name}"
-  type      = "A"
-  content   = openstack_compute_instance_v2.instance_1.network[1].fixed_ip_v4
-  ttl       = 60
-}
-
-module "floatingip" {
-  count = var.enable_floatingip ? 1 : 0
-
-  source             = "../floatingip"
-  port_id            = openstack_networking_port_v2.port_2.id
-  vm_dns_domain_id   = var.vm_dns_domain_id
-  vm_dns_domain_name = var.vm_dns_domain_name
-  server_name        = var.server_name
 }
