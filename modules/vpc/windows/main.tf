@@ -41,9 +41,9 @@ resource "openstack_compute_instance_v2" "instance_1" {
     boot_index       = 0
   }
 
+  for_each         = module.volumes
   block_device {
-    for_each         = module.volumes
-    uuid             = volumes[each.key].id
+    uuid             = module.volumes[each.key].id
     source_type      = "volume"
     destination_type = "volume"
     boot_index       = -1
