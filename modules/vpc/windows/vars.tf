@@ -91,9 +91,9 @@ variable "data_volumes" {
 variable "license_type" {
   description = "name of licence"
   type        = string
-  default = "Windows Server 2012 R2 Standard"
-  #"Windows Server 2016 R2 Standard"
-  #"Windows Server 2019 R2 Standard"
+  default = "license_windows_2012_standard"
+  #"license_windows_2016_standard"
+  #"license_windows_2019_standard"
 }
 
 variable "license_project_id" {
