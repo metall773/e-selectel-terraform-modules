@@ -10,14 +10,6 @@ variable "server_root_disk_gb" {
   default = 8
 }
 
-variable "server_second_disk_gb" {
-  default = 5
-}
-
-variable "server_second_volume_type" {
-  default = "fast.ru-3a"
-}
-
 variable "server_name" {
   description = "server name in selectel console"
   default     = "server_1"
@@ -26,6 +18,8 @@ variable "server_name" {
 variable "server_image_name" {
   description = "Predefined name from selectel image list"
   default     = "Windows Server 2016 Standard"
+  #"Windows Server 2019 Standard Legacy BIOS"
+  #"Windows Server 2016 Standard"
 }
 
 #[root@jenkins e-selectel-terraform]# openstack image list
@@ -55,7 +49,6 @@ variable "server_image_name" {
 #| c0896488-6f8c-4a07-b78b-f4ce81e38ecb | selectel-rescue-initrd                   | active |
 #| 96aa7731-c1f6-4d59-91a1-bee0952935c0 | selectel-rescue-kernel                   | active |
 #+--------------------------------------+------------------------------------------+--------+
-
 
 variable "server_zone" {
   default = "ru-3a"
@@ -93,4 +86,20 @@ variable "install_packages" {
 variable "data_volumes" {
   description = "list of data volumes"
   type        = map(any)
+}
+
+variable "license_type" {
+  description = "name of licence"
+  type        = string
+  default = "Windows Server 2012 R2 Standard"
+  #"Windows Server 2016 R2 Standard"
+  #"Windows Server 2019 R2 Standard"
+}
+
+variable "license_project_id" {
+  description = "project ID"
+}
+
+variable "license_region" {
+  description = "region name"
 }
