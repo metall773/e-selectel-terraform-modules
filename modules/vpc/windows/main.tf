@@ -27,11 +27,19 @@ resource "openstack_compute_instance_v2" "instance_1" {
   admin_pass        = var.admin_pass
 
   network {
-    port = openstack_networking_port_v2.port_1.id
+    port = openstack_networking_port_v2.port_2.id
   }
 
   network {
-    port = openstack_networking_port_v2.port_2.id
+    port = openstack_networking_port_v2.port_1.id
+  }
+
+  dynamic "network" {
+    for_each = var.license_type != "" ? [var.license_type] : []
+
+    content {
+      name            = var.license_type
+    }
   }
 
   block_device {
