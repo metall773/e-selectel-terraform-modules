@@ -19,6 +19,7 @@ data "template_file" "init" {
 }
 
 resource "openstack_compute_instance_v2" "instance_1" {
+  depends_on = [selectel_vpc_license_v2.license_1]
   name              = var.server_name
   image_id          = module.image_datasource.image_id
   flavor_id         = module.flavor.flavor_id
