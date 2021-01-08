@@ -7,6 +7,15 @@ resource "openstack_networking_port_v2" "port_1" {
   }
 }
 
+resource "openstack_networking_port_v2" "port_2" {
+  name       = "${var.server_name}-eth2"
+  network_id = var.network_id
+
+  fixed_ip {
+    subnet_id = var.subnet_id
+  }
+}
+
 module "floatingip" {
   count = var.enable_floatingip ? 1 : 0
 

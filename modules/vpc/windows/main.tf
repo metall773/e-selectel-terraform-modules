@@ -31,6 +31,10 @@ resource "openstack_compute_instance_v2" "instance_1" {
     port = openstack_networking_port_v2.port_1.id
   }
 
+  network {
+    port = openstack_networking_port_v2.port_2.id
+  }
+
   dynamic "network" {
     for_each = var.license_type != "" ? [var.license_type] : []
 
