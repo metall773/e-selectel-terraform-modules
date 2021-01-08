@@ -28,10 +28,6 @@ resource "openstack_compute_instance_v2" "instance_1" {
   admin_pass        = var.admin_pass
 
   network {
-    port = openstack_networking_port_v2.port_2.id
-  }
-
-  network {
     port = openstack_networking_port_v2.port_1.id
   }
 
