@@ -86,6 +86,7 @@ variable "install_packages" {
 variable "data_volumes" {
   description = "list of data volumes"
   type        = map(any)
+  default     = {}
 }
 
 variable "license_type" {
