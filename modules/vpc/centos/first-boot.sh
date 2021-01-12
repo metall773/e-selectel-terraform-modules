@@ -210,7 +210,7 @@ if [[ ! -z "$bitrix_setup_url" ]]
     mkdir -p /home/bitrix/.ssh
     cp /home/${vm_admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
     chmod 600 /home/bitrix/.ssh/authorized_keys
-    chown bitrix:bitrix /home/bitrix/.ssh/authorized_keys
+    chown bitrix:bitrix -R /home/bitrix/.ssh
     
     #disable selinux
     seconfigs="/etc/selinux/config /etc/sysconfig/selinux"
