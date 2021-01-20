@@ -1,11 +1,11 @@
-#resource "openstack_networking_port_v2" "port_1" {
-#  name       = "${var.server_name}-eth1"
-#  network_id = var.network_id
-#
-#  fixed_ip {
-#    subnet_id = var.subnet_id
-#  }
-#}
+resource "openstack_networking_port_v2" "port_1" {
+  name       = "${var.server_name}-eth1"
+  network_id = var.network_id
+
+  fixed_ip {
+    subnet_id = var.subnet_id
+  }
+}
 
 resource "openstack_networking_port_v2" "port_2" {
   name       = "${var.server_name}-eth2"
