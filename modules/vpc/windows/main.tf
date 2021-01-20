@@ -27,9 +27,9 @@ resource "openstack_compute_instance_v2" "instance_1" {
   availability_zone = var.server_zone
   admin_pass        = var.admin_pass
 
-  network {
-    port = openstack_networking_port_v2.port_1.id
-  }
+  #network {
+  #  port = openstack_networking_port_v2.port_1.id
+  #}
 
   network {
     port = openstack_networking_port_v2.port_2.id
