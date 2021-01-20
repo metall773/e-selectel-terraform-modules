@@ -3,7 +3,7 @@ output "server_id" {
 }
 
 output "server_port_id" {
-  value = openstack_networking_port_v2.port_1.id
+  value = openstack_networking_port_v2.port_2.id
 }
 
 output "server_FQDN" {
